@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Quote Generator | OjiraSoft</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 240px;
+      height: 100vh;
+      background: #101828;
+      color: white;
+      padding: 30px 20px;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .logo span {
+      color: #6c63ff;
+    }
+
+    .tagline {
+      font-size: 12px;
+      color: #98a2b3;
+      margin-bottom: 35px;
+    }
+
+    .nav a {
+      display: block;
+      padding: 13px 14px;
+      margin-bottom: 7px;
+      text-decoration: none;
+      color: #d0d5dd;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      background: #344054;
+      color: white;
+    }
+
+    /* MAIN */
+
+    .main {
+      margin-left: 240px;
+      padding: 35px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .topbar h1 {
+      font-size: 28px;
+    }
+
+    .topbar p {
+      color: #667085;
+      margin-top: 6px;
+      font-size: 14px;
+    }
+
+    .back-btn {
+      background: white;
+      border: 1px solid #d0d5dd;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #344054;
+      font-size: 14px;
+    }
+
+    /* CARDS */
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 22px;
+      box-shadow: 0 3px 15px rgba(0,0,0,.05);
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+
+    .section-description {
+      color: #667085;
+      font-size: 13px;
+      margin-top: -10px;
+      margin-bottom: 20px;
+    }
+
+    /* FORMS */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 7px;
+      color: #344054;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #d0d5dd;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #6c63ff;
+      box-shadow: 0 0 0 3px rgba(108,99,255,.10);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    /* LOGO */
+
+    .logo-preview {
+      margin-top: 10px;
+      max-width: 140px;
+      max-height: 80px;
+      object-fit: contain;
+      display: none;
+    }
+
+    /* ITEMS */
+
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .items-table th {
+      text-align: left;
+      font-size: 12px;
+      color: #667085;
+      padding: 10px 7px;
+      border-bottom: 1px solid #eaecf0;
+    }
+
+    .items-table td {
+      padding: 8px 6px;
+    }
+
+    .items-table input {
+      padding: 9px;
+    }
+
+    .description {
+      min-width: 240px;
+    }
+
+    .remove-btn {
+      border: none;
+      background: #fee4e2;
+      color: #b42318;
+      width: 34px;
+      height: 34px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .add-item {
+      margin-top: 14px;
+      border: 1px dashed #6c63ff;
+      background: #f8f7ff;
+      color: #554bd8;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* TOTALS */
+
+    .totals-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 25px;
+    }
+
+    .totals {
+      width: 360px;
+      background: #f9fafb;
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .total-line {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+
+    .grand-total {
+      border-top: 1px solid #d0d5dd;
+      padding-top: 14px;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    /* ACTION BUTTONS */
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 25px;
+      margin-bottom: 50px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 9px;
+      padding: 13px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-preview {
+      background: white;
+      border: 1px solid #d0d5dd;
+      color: #344054;
+    }
+
+    .btn-primary {
+      background: #6c63ff;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #554bd8;
+    }
+
+    /* QUOTE DOCUMENT */
+
+    #quoteDocument {
+      display: none;
+      background: white;
+      color: #1d2939;
+      width: 794px;
+      min-height: 1123px;
+      margin: auto;
+      padding: 55px;
+    }
+
+    .document-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 3px solid #6c63ff;
+      padding-bottom: 25px;
+      margin-bottom: 35px;
+    }
+
+    .document-logo {
+      max-width: 150px;
+      max-height: 80px;
+      object-fit: contain;
+      margin-bottom: 12px;
+    }
+
+    .document-company h2 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .document-company p {
+      font-size: 12px;
+      line-height: 1.6;
+      color: #667085;
+    }
+
+    .quote-title {
+      text-align: right;
+    }
+
+    .quote-title h1 {
+      color: #6c63ff;
+      font-size: 34px;
+      letter-spacing: 2px;
+    }
+
+    .quote-title p {
+      font-size: 12px;
+      margin-top: 7px;
+      color: #667085;
+    }
+
+    .document-customer {
+      margin-bottom: 30px;
+    }
+
+    .document-customer small {
+      color: #667085;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .document-customer h3 {
+      margin-top: 7px;
+      margin-bottom: 5px;
+    }
+
+    .document-customer p {
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .document-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 25px;
+    }
+
+    .document-table th {
+      background: #f2f4f7;
+      padding: 12px;
+      text-align: left;
+      font-size: 12px;
+    }
+
+    .document-table td {
+      padding: 13px 12px;
+      border-bottom: 1px solid #eaecf0;
+      font-size: 13px;
+    }
+
+    .doc-totals {
+      width: 300px;
+      margin-left: auto;
+      margin-top: 25px;
+    }
+
+    .doc-total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+      font-size: 13px;
+    }
+
+    .doc-grand-total {
+      font-size: 19px;
+      font-weight: 800;
+      border-top: 2px solid #344054;
+      padding-top: 12px;
+      margin-top: 8px;
+    }
+
+    .document-notes {
+      margin-top: 45px;
+      border-top: 1px solid #eaecf0;
+      padding-top: 20px;
+    }
+
+    .document-notes h4 {
+      margin-bottom: 8px;
+    }
+
+    .document-notes p {
+      font-size: 12px;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    .thank-you {
+      margin-top: 55px;
+      text-align: center;
+      color: #667085;
+      font-size: 12px;
+    }
+
+    /* MOBILE */
+
+    @media(max-width: 900px) {
+
+      .sidebar {
+        display: none;
+      }
+
+      .main {
+        margin-left: 0;
+        padding: 20px;
+      }
+
+      .grid,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .items-wrapper {
+        overflow-x: auto;
+      }
+
+      .totals {
+        width: 100%;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+  <div class="logo">
+    Ojira<span>Soft</span>
+  </div>
+
+  <div class="tagline">
+    Business Automation Platform
+  </div>
+
+  <nav class="nav">
+    <a href="dashboard.html">Dashboard</a>
+    <a class="active" href="quote.html">Quotes</a>
+    <a href="#">Invoices</a>
+    <a href="#">Customers</a>
+    <a href="#">Automations</a>
+    <a href="#">Messages</a>
+    <a href="#">AI Assistant</a>
+    <a href="#">Analytics</a>
+    <a href="#">Settings</a>
+  </nav>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+  <div class="topbar">
+
+    <div>
+      <h1>Create a Quote</h1>
+      <p>Create a professional quotation for your customer.</p>
+    </div>
+
+    <a href="dashboard.html" class="back-btn">
+      ← Dashboard
+    </a>
+
+  </div>
+
+
+  <!-- BUSINESS DETAILS -->
+
+  <div class="card">
+
+    <h2>Your Business</h2>
+
+    <p class="section-description">
+      These details will appear on your customer's quotation.
+    </p>
+
+    <div class="grid">
+
+      <div class="field">
+        <label>Business / Company Name *</label>
+        <input id="businessName"
+               placeholder="Example: OjiraSoft Ltd">
+      </div>
+
+      <div class="field">
+        <label>Business Email</label>
+        <input id="businessEmail"
+               type="email"
+               placeholder="hello@company.com">
+      </div>
+
+      <div class="field">
+        <label>Phone</label>
+        <input id="businessPhone"
+               placeholder="+49 123 456789">
+      </div>
+
+      <div class="field">
+        <label>Website</label>
+        <input id="businessWebsite"
+               placeholder="www.company.com">
+      </div>
+
+      <div class="field">
+        <label>Business Address</label>
+        <input id="businessAddress"
+               placeholder="Street, City, Country">
+      </div>
+
+      <div class="field">
+        <label>Business Logo</label>
+
+        <input id="logoInput"
+               type="file"
+               accept="image/*"
+               onchange="loadLogo(event)">
+
+        <img id="logoPreview"
+             class="logo-preview"
+             alt="Business logo">
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- CUSTOMER -->
+
+  <div class="card">
+
+    <h2>Customer</h2>
+
+    <div class="grid">
+
+      <div class="field">
+        <label>Customer / Company Name *</label>
+        <input id="customerName"
+               placeholder="Customer name">
+      </div>
+
+      <div class="field">
+        <label>Customer Email</label>
+        <input id="customerEmail"
+               type="email"
+               placeholder="customer@email.com">
+      </div>
+
+      <div class="field">
+        <label>Customer Phone</label>
+        <input id="customerPhone"
+               placeholder="+49 123 456789">
+      </div>
+
+      <div class="field">
+        <label>Customer Address</label>
+        <input id="customerAddress"
+               placeholder="Street, City, Country">
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- QUOTE INFORMATION -->
+
+  <div class="card">
+
+    <h2>Quote Information</h2>
+
+    <div class="grid-3">
+
+      <div class="field">
+        <label>Quote Number</label>
+        <input id="quoteNumber">
+      </div>
+
+      <div class="field">
+        <label>Quote Date</label>
+        <input id="quoteDate"
+               type="date">
+      </div>
+
+      <div class="field">
+        <label>Valid Until</label>
+        <input id="validUntil"
+               type="date">
+      </div>
+
+      <div class="field">
+
+        <label>Currency</label>
+
+        <select id="currency"
+                onchange="calculateTotals()">
+
+          <option value="€">EUR (€)</option>
+          <option value="$">USD ($)</option>
+          <option value="£">GBP (£)</option>
+          <option value="₦">NGN (₦)</option>
+          <option value="CHF ">CHF</option>
+          <option value="C$">CAD (C$)</option>
+          <option value="A$">AUD (A$)</option>
+
+        </select>
+
+      </div>
+
+      <div class="field">
+
+        <label>Tax / VAT %</label>
+
+        <input id="taxRate"
+               type="number"
+               min="0"
+               step="0.01"
+               value="0"
+               oninput="calculateTotals()">
+
+      </div>
+
+      <div class="field">
+
+        <label>Discount %</label>
+
+        <input id="discountRate"
+               type="number"
+               min="0"
+               max="100"
+               step="0.01"
+               value="0"
+               oninput="calculateTotals()">
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- PRODUCTS / SERVICES -->
+
+  <div class="card">
+
+    <h2>Products / Services</h2>
+
+    <p class="section-description">
+      Add the products, services or work included in this quotation.
+    </p>
+
+    <div class="items-wrapper">
+
+      <table class="items-table">
+
+        <thead>
+
+          <tr>
+            <th>Description</th>
+            <th width="100">Quantity</th>
+            <th width="150">Unit Price</th>
+            <th width="150">Amount</th>
+            <th width="50"></th>
+          </tr>
+
+        </thead>
+
+        <tbody id="itemsBody">
+
+          <tr class="item-row">
+
+            <td>
+              <input class="description"
+                     placeholder="Product or service">
+            </td>
+
+            <td>
+              <input class="quantity"
+                     type="number"
+                     min="0"
+                     step="1"
+                     value="1"
+                     oninput="calculateTotals()">
+            </td>
+
+            <td>
+              <input class="price"
+                     type="number"
+                     min="0"
+                     step="0.01"
+                     value="0"
+                     oninput="calculateTotals()">
+            </td>
+
+            <td class="line-total">
+              €0.00
+            </td>
+
+            <td>
+              <button class="remove-btn"
+                      onclick="removeItem(this)">
+                ×
+              </button>
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <button class="add-item"
+            onclick="addItem()">
+      + Add Product / Service
+    </button>
+
+
+    <div class="totals-container">
+
+      <div class="totals">
+
+        <div class="total-line">
+          <span>Subtotal</span>
+          <strong id="subtotalDisplay">€0.00</strong>
+        </div>
+
+        <div class="total-line">
+          <span>Discount</span>
+          <strong id="discountDisplay">- €0.00</strong>
+        </div>
+
+        <div class="total-line">
+          <span>Tax / VAT</span>
+          <strong id="taxDisplay">€0.00</strong>
+        </div>
+
+        <div class="total-line grand-total">
+          <span>Total</span>
+          <span id="totalDisplay">€0.00</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- NOTES -->
+
+  <div class="card">
+
+    <h2>Notes & Terms</h2>
+
+    <div class="grid">
+
+      <div class="field">
+
+        <label>Customer Note</label>
+
+        <textarea id="notes"
+          placeholder="Thank you for considering our services."></textarea>
+
+      </div>
+
+      <div class="field">
+
+        <label>Terms & Conditions</label>
+
+        <textarea id="terms"
+          placeholder="Example: This quotation is valid for 30 days."></textarea>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- BUTTONS -->
+
+  <div class="actions">
+
+    <button class="btn btn-preview"
+            onclick="previewQuote()">
+      Preview Quote
+    </button>
+
+    <button class="btn btn-primary"
+            onclick="generatePDF()">
+      Generate PDF Quote
+    </button>
+
+  </div>
+
+</main>
+
+
+<!-- PDF DOCUMENT -->
+
+<div id="quoteDocument">
+
+  <div class="document-header">
+
+    <div class="document-company">
+
+      <img id="docLogo"
+           class="document-logo"
+           style="display:none">
+
+      <h2 id="docBusinessName"></h2>
+
+      <p id="docBusinessDetails"></p>
+
+    </div>
+
+
+    <div class="quote-title">
+
+      <h1>QUOTE</h1>
+
+      <p>
+        Quote #: <strong id="docQuoteNumber"></strong>
+      </p>
+
+      <p>
+        Date: <span id="docQuoteDate"></span>
+      </p>
+
+      <p>
+        Valid Until: <span id="docValidUntil"></span>
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="document-customer">
+
+    <small>Prepared For</small>
+
+    <h3 id="docCustomerName"></h3>
+
+    <p id="docCustomerDetails"></p>
+
+  </div>
+
+
+  <table class="document-table">
+
+    <thead>
+
+      <tr>
+        <th>Description</th>
+        <th>Qty</th>
+        <th>Unit Price</th>
+        <th>Amount</th>
+      </tr>
+
+    </thead>
+
+    <tbody id="docItems"></tbody>
+
+  </table>
+
+
+  <div class="doc-totals">
+
+    <div class="doc-total-row">
+      <span>Subtotal</span>
+      <span id="docSubtotal"></span>
+    </div>
+
+    <div class="doc-total-row">
+      <span>Discount</span>
+      <span id="docDiscount"></span>
+    </div>
+
+    <div class="doc-total-row">
+      <span>Tax / VAT</span>
+      <span id="docTax"></span>
+    </div>
+
+    <div class="doc-total-row doc-grand-total">
+      <span>Total</span>
+      <span id="docTotal"></span>
+    </div>
+
+  </div>
+
+
+  <div class="document-notes">
+
+    <h4>Notes</h4>
+
+    <p id="docNotes"></p>
+
+    <br>
+
+    <h4>Terms & Conditions</h4>
+
+    <p id="docTerms"></p>
+
+  </div>
+
+
+  <div class="thank-you">
+    Thank you for your business.
+  </div>
+
+</div>
+
+
+<!-- PDF LIBRARY -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+
+<script>
+
+let logoData = "";
+
+
+/* DEFAULT DATE AND QUOTE NUMBER */
+
+function setupDefaults() {
+
+  const today = new Date();
+
+  const todayString =
+    today.toISOString().split("T")[0];
+
+  document.getElementById("quoteDate").value =
+    todayString;
+
+
+  const validDate =
+    new Date(today);
+
+  validDate.setDate(validDate.getDate() + 30);
+
+  document.getElementById("validUntil").value =
+    validDate.toISOString().split("T")[0];
+
+
+  const quoteNumber =
+    "QT-" +
+    today.getFullYear() +
+    "-" +
+    String(Date.now()).slice(-6);
+
+  document.getElementById("quoteNumber").value =
+    quoteNumber;
+
+}
+
+
+/* LOAD LOGO */
+
+function loadLogo(event) {
+
+  const file =
+    event.target.files[0];
+
+  if (!file) return;
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload = function(e) {
+
+    logoData =
+      e.target.result;
+
+    const preview =
+      document.getElementById("logoPreview");
+
+    preview.src =
+      logoData;
+
+    preview.style.display =
+      "block";
+
+  };
+
+
+  reader.readAsDataURL(file);
+
+}
+
+
+/* ADD ITEM */
+
+function addItem() {
+
+  const tbody =
+    document.getElementById("itemsBody");
+
+
+  const row =
+    document.createElement("tr");
+
+  row.className =
+    "item-row";
+
+
+  row.innerHTML = `
+
+    <td>
+      <input class="description"
+             placeholder="Product or service">
+    </td>
+
+    <td>
+      <input class="quantity"
+             type="number"
+             min="0"
+             step="1"
+             value="1"
+             oninput="calculateTotals()">
+    </td>
+
+    <td>
+      <input class="price"
+             type="number"
+             min="0"
+             step="0.01"
+             value="0"
+             oninput="calculateTotals()">
+    </td>
+
+    <td class="line-total">
+      0.00
+    </td>
+
+    <td>
+      <button class="remove-btn"
+              onclick="removeItem(this)">
+        ×
+      </button>
+    </td>
+
+  `;
+
+
+  tbody.appendChild(row);
+
+  calculateTotals();
+
+}
+
+
+/* REMOVE ITEM */
+
+function removeItem(button) {
+
+  const rows =
+    document.querySelectorAll(".item-row");
+
+
+  if (rows.length === 1) {
+
+    alert(
+      "Your quote must contain at least one product or service."
+    );
+
+    return;
+
+  }
+
+
+  button.closest("tr").remove();
+
+  calculateTotals();
+
+}
+
+
+/* TOTAL CALCULATION */
+
+function calculateTotals() {
+
+  const symbol =
+    document.getElementById("currency").value;
+
+
+  const rows =
+    document.querySelectorAll(".item-row");
+
+
+  let subtotal = 0;
+
+
+  rows.forEach(row => {
+
+    const quantity =
+      parseFloat(
+        row.querySelector(".quantity").value
+      ) || 0;
+
+
+    const price =
+      parseFloat(
+        row.querySelector(".price").value
+      ) || 0;
+
+
+    const total =
+      quantity * price;
+
+
+    subtotal += total;
+
+
+    row.querySelector(".line-total").textContent =
+      symbol + total.toFixed(2);
+
+  });
+
+
+  const discountRate =
+    parseFloat(
+      document.getElementById("discountRate").value
+    ) || 0;
+
+
+  const taxRate =
+    parseFloat(
+      document.getElementById("taxRate").value
+    ) || 0;
+
+
+  const discount =
+    subtotal * (discountRate / 100);
+
+
+  const taxable =
+    subtotal - discount;
+
+
+  const tax =
+    taxable * (taxRate / 100);
+
+
+  const total =
+    taxable + tax;
+
+
+  document.getElementById("subtotalDisplay").textContent =
+    symbol + subtotal.toFixed(2);
+
+
+  document.getElementById("discountDisplay").textContent =
+    "- " + symbol + discount.toFixed(2);
+
+
+  document.getElementById("taxDisplay").textContent =
+    symbol + tax.toFixed(2);
+
+
+  document.getElementById("totalDisplay").textContent =
+    symbol + total.toFixed(2);
+
+
+  return {
+    subtotal,
+    discount,
+    tax,
+    total,
+    symbol
+  };
+
+}
+
+
+/* BUILD DOCUMENT */
+
+function buildQuoteDocument() {
+
+  const businessName =
+    document.getElementById("businessName").value.trim();
+
+
+  const customerName =
+    document.getElementById("customerName").value.trim();
+
+
+  if (!businessName) {
+
+    alert("Please enter your business name.");
+
+    return false;
+
+  }
+
+
+  if (!customerName) {
+
+    alert("Please enter the customer name.");
+
+    return false;
+
+  }
+
+
+  const totals =
+    calculateTotals();
+
+
+  document.getElementById("docBusinessName").textContent =
+    businessName;
+
+
+  const businessDetails = [
+
+    document.getElementById("businessAddress").value,
+
+    document.getElementById("businessEmail").value,
+
+    document.getElementById("businessPhone").value,
+
+    document.getElementById("businessWebsite").value
+
+  ].filter(Boolean);
+
+
+  document.getElementById("docBusinessDetails").innerHTML =
+    businessDetails.join("<br>");
+
+
+  if (logoData) {
+
+    const logo =
+      document.getElementById("docLogo");
+
+    logo.src =
+      logoData;
+
+    logo.style.display =
+      "block";
+
+  }
+
+
+  document.getElementById("docQuoteNumber").textContent =
+    document.getElementById("quoteNumber").value;
+
+
+  document.getElementById("docQuoteDate").textContent =
+    document.getElementById("quoteDate").value;
+
+
+  document.getElementById("docValidUntil").textContent =
+    document.getElementById("validUntil").value;
+
+
+  document.getElementById("docCustomerName").textContent =
+    customerName;
+
+
+  const customerDetails = [
+
+    document.getElementById("customerAddress").value,
+
+    document.getElementById("customerEmail").value,
+
+    document.getElementById("customerPhone").value
+
+  ].filter(Boolean);
+
+
+  document.getElementById("docCustomerDetails").innerHTML =
+    customerDetails.join("<br>");
+
+
+  const docItems =
+    document.getElementById("docItems");
+
+
+  docItems.innerHTML =
+    "";
+
+
+  document.querySelectorAll(".item-row")
+    .forEach(row => {
+
+      const description =
+        row.querySelector(".description").value.trim();
+
+
+      const quantity =
+        parseFloat(
+          row.querySelector(".quantity").value
+        ) || 0;
+
+
+      const price =
+        parseFloat(
+          row.querySelector(".price").value
+        ) || 0;
+
+
+      if (!description && price === 0) {
+        return;
+      }
+
+
+      const amount =
+        quantity * price;
+
+
+      const tr =
+        document.createElement("tr");
+
+
+      tr.innerHTML = `
+
+        <td>${escapeHTML(description || "Item")}</td>
+
+        <td>${quantity}</td>
+
+        <td>${totals.symbol}${price.toFixed(2)}</td>
+
+        <td>${totals.symbol}${amount.toFixed(2)}</td>
+
+      `;
+
+
+      docItems.appendChild(tr);
+
+    });
+
+
+  document.getElementById("docSubtotal").textContent =
+    totals.symbol +
+    totals.subtotal.toFixed(2);
+
+
+  document.getElementById("docDiscount").textContent =
+    "- " +
+    totals.symbol +
+    totals.discount.toFixed(2);
+
+
+  document.getElementById("docTax").textContent =
+    totals.symbol +
+    totals.tax.toFixed(2);
+
+
+  document.getElementById("docTotal").textContent =
+    totals.symbol +
+    totals.total.toFixed(2);
+
+
+  document.getElementById("docNotes").textContent =
+    document.getElementById("notes").value ||
+    "Thank you for considering our quotation.";
+
+
+  document.getElementById("docTerms").textContent =
+    document.getElementById("terms").value ||
+    "This quotation is subject to the terms agreed between the parties.";
+
+
+  return true;
+
+}
+
+
+/* SECURITY */
+
+function escapeHTML(value) {
+
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* PREVIEW */
+
+function previewQuote() {
+
+  if (!buildQuoteDocument()) {
+    return;
+  }
+
+
+  const documentElement =
+    document.getElementById("quoteDocument");
+
+
+  const previousDisplay =
+    documentElement.style.display;
+
+
+  documentElement.style.display =
+    "block";
+
+
+  const previewWindow =
+    window.open("", "_blank");
+
+
+  if (!previewWindow) {
+
+    alert(
+      "Your browser blocked the preview window. Please allow pop-ups for OjiraSoft."
+    );
+
+    documentElement.style.display =
+      previousDisplay;
+
+    return;
+
+  }
+
+
+  previewWindow.document.write(`
+
+    <!DOCTYPE html>
+
+    <html>
+
+    <head>
+
+      <title>Quote Preview</title>
+
+      <style>
+
+        body {
+          background:#eef1f6;
+          font-family:Arial,Helvetica,sans-serif;
+          padding:30px;
+        }
+
+        ${document.querySelector("style").innerHTML}
+
+        #quoteDocument {
+          display:block !important;
+          margin:auto;
+          box-shadow:0 5px 30px rgba(0,0,0,.10);
+        }
+
+        .sidebar,
+        .main {
+          display:none !important;
+        }
+
+      </style>
+
+    </head>
+
+    <body>
+
+      ${documentElement.outerHTML}
+
+    </body>
+
+    </html>
+
+  `);
+
+
+  previewWindow.document.close();
+
+
+  documentElement.style.display =
+    previousDisplay;
+
+}
+
+
+/* GENERATE PDF */
+
+function generatePDF() {
+
+  if (!buildQuoteDocument()) {
+    return;
+  }
+
+
+  const element =
+    document.getElementById("quoteDocument");
+
+
+  element.style.display =
+    "block";
+
+
+  const quoteNumber =
+    document.getElementById("quoteNumber").value ||
+    "quote";
+
+
+  const options = {
+
+    margin: 0,
+
+    filename:
+      "OjiraSoft-" +
+      quoteNumber +
+      ".pdf",
+
+    image: {
+      type: "jpeg",
+      quality: 0.98
+    },
+
+    html2canvas: {
+      scale: 2,
+      useCORS: true
+    },
+
+    jsPDF: {
+      unit: "px",
+      format: [794,1123],
+      orientation: "portrait"
+    }
+
+  };
+
+
+  html2pdf()
+    .set(options)
+    .from(element)
+    .save()
+    .then(() => {
+
+      element.style.display =
+        "none";
+
+    })
+    .catch(error => {
+
+      element.style.display =
+        "none";
+
+      console.error(error);
+
+      alert(
+        "The PDF could not be generated. Please try again."
+      );
+
+    });
+
+}
+
+
+/* START */
+
+setupDefaults();
+
+calculateTotals();
+
+</script>
+
+</body>
+</html>
