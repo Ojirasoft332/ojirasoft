@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OjiraSoft Dashboard</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #07111f;
+    color: #ffffff;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 250px;
+    background: #0d1b2e;
+    padding: 30px 20px;
+    position: fixed;
+    height: 100vh;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: bold;
+    margin-bottom: 45px;
+}
+
+.logo span {
+    color: #42d3ff;
+}
+
+.sidebar a {
+    display: block;
+    color: #b9c4d4;
+    text-decoration: none;
+    padding: 14px 15px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #152a44;
+    color: #42d3ff;
+}
+
+/* MAIN */
+
+.main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 35px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.topbar h1 {
+    font-size: 30px;
+}
+
+.profile {
+    background: #101f34;
+    padding: 10px 18px;
+    border-radius: 8px;
+    color: #b9c4d4;
+}
+
+/* STAT CARDS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 35px;
+}
+
+.card {
+    background: #101f34;
+    padding: 25px;
+    border-radius: 14px;
+    border: 1px solid #1d3450;
+}
+
+.card p {
+    color: #8997aa;
+    margin-bottom: 12px;
+}
+
+.card h2 {
+    font-size: 30px;
+}
+
+.blue {
+    color: #42d3ff;
+}
+
+/* AUTOMATIONS */
+
+.section {
+    background: #101f34;
+    border: 1px solid #1d3450;
+    border-radius: 14px;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.button {
+    background: #42d3ff;
+    color: #07111f;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.automation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 17px 0;
+    border-bottom: 1px solid #1d3450;
+}
+
+.automation:last-child {
+    border-bottom: none;
+}
+
+.automation p {
+    color: #8997aa;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.status {
+    background: rgba(34, 197, 94, .15);
+    color: #4ade80;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+/* ACTIVITY */
+
+.activity {
+    padding: 15px 0;
+    border-bottom: 1px solid #1d3450;
+}
+
+.activity:last-child {
+    border-bottom: none;
+}
+
+.activity span {
+    color: #8997aa;
+    font-size: 13px;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+
+    .sidebar {
+        width: 75px;
+        padding: 25px 10px;
+    }
+
+    .sidebar .menu-text {
+        display: none;
+    }
+
+    .logo {
+        font-size: 17px;
+    }
+
+    .main {
+        margin-left: 75px;
+        width: calc(100% - 75px);
+        padding: 20px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar h1 {
+        font-size: 23px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">Ojira<span>Soft</span></div>
+
+    <a class="active" href="#">
+        🏠 <span class="menu-text">Dashboard</span>
+    </a>
+
+    <a href="#">
+        ⚡ <span class="menu-text">Automations</span>
+    </a>
+
+    <a href="#">
+        👥 <span class="menu-text">Customers</span>
+    </a>
+
+    <a href="#">
+        ✉️ <span class="menu-text">Messages</span>
+    </a>
+
+    <a href="#">
+        🤖 <span class="menu-text">AI Assistant</span>
+    </a>
+
+    <a href="#">
+        📊 <span class="menu-text">Analytics</span>
+    </a>
+
+    <a href="#">
+        ⚙️ <span class="menu-text">Settings</span>
+    </a>
+
+</aside>
+
+
+<main class="main">
+
+    <div class="topbar">
+
+        <div>
+            <h1>Welcome to OjiraSoft 👋</h1>
+            <p style="color:#8997aa;margin-top:7px;">
+                Manage your business automations from one place.
+            </p>
+        </div>
+
+        <div class="profile">
+            OjiraSoft Admin
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="card">
+            <p>Active Automations</p>
+            <h2 class="blue">3</h2>
+        </div>
+
+        <div class="card">
+            <p>Customers</p>
+            <h2>0</h2>
+        </div>
+
+        <div class="card">
+            <p>Messages Sent</p>
+            <h2>0</h2>
+        </div>
+
+        <div class="card">
+            <p>Tasks Automated</p>
+            <h2>0</h2>
+        </div>
+
+    </div>
+
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div>
+                <h2>Automations</h2>
+                <p style="color:#8997aa;margin-top:6px;">
+                    Your active business workflows
+                </p>
+            </div>
+
+            <button class="button">+ New Automation</button>
+
+        </div>
+
+
+        <div class="automation">
+
+            <div>
+                <strong>Welcome Email</strong>
+                <p>Automatically welcome new customers.</p>
+            </div>
+
+            <span class="status">Active</span>
+
+        </div>
+
+
+        <div class="automation">
+
+            <div>
+                <strong>Customer Follow-Up</strong>
+                <p>Follow up automatically with new leads.</p>
+            </div>
+
+            <span class="status">Active</span>
+
+        </div>
+
+
+        <div class="automation">
+
+            <div>
+                <strong>AI Email Assistant</strong>
+                <p>Use AI to help prepare customer responses.</p>
+            </div>
+
+            <span class="status">Active</span>
+
+        </div>
+
+    </section>
+
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div>
+                <h2>Recent Activity</h2>
+                <p style="color:#8997aa;margin-top:6px;">
+                    Latest activity from your OjiraSoft account
+                </p>
+            </div>
+
+        </div>
+
+        <div class="activity">
+            <strong>OjiraSoft account created</strong><br>
+            <span>System setup completed</span>
+        </div>
+
+        <div class="activity">
+            <strong>Business email connected</strong><br>
+            <span>info@ojirasoft.cloud</span>
+        </div>
+
+        <div class="activity">
+            <strong>Website connected</strong><br>
+            <span>ojirasoft.cloud</span>
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>
