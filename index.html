@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>OjiraSoft | AI Automation for Modern Businesses</title>
-  <meta name="description" content="OjiraSoft helps businesses automate repetitive work, customer communication and everyday processes using AI.">
+  <meta name="description" content="OjiraSoft helps businesses automate repetitive work, customer communication and everyday processes using practical AI solutions.">
 
   <style>
     * {
@@ -36,7 +36,7 @@
       border-bottom: 1px solid rgba(255,255,255,0.08);
       position: sticky;
       top: 0;
-      background: rgba(7,17,31,0.94);
+      background: rgba(7,17,31,0.95);
       backdrop-filter: blur(10px);
       z-index: 1000;
     }
@@ -145,11 +145,16 @@
       padding: 15px 25px;
       border-radius: 8px;
       font-weight: bold;
+      transition: 0.2s ease;
     }
 
     .primary {
       background: #42d3ff;
       color: #07111f;
+    }
+
+    .primary:hover {
+      transform: translateY(-2px);
     }
 
     .secondary {
@@ -161,7 +166,7 @@
       border-color: #42d3ff;
     }
 
-    /* SECTIONS */
+    /* GENERAL SECTIONS */
 
     section {
       padding: 90px 8%;
@@ -273,10 +278,55 @@
       margin-top: 10px;
     }
 
+    /* CONTACT */
+
+    .contact {
+      background: #091522;
+    }
+
+    .contact-grid {
+      max-width: 1000px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .contact-card {
+      background: #0d1b2b;
+      border: 1px solid #172b40;
+      border-radius: 14px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .contact-card .contact-icon {
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+
+    .contact-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .contact-card p {
+      color: #9fb0c5;
+    }
+
+    .contact-card a {
+      color: #42d3ff;
+      text-decoration: none;
+      word-break: break-word;
+    }
+
+    .contact-card a:hover {
+      text-decoration: underline;
+    }
+
     /* CTA */
 
     .cta-wrap {
-      padding: 40px 8% 100px;
+      padding: 90px 8%;
     }
 
     .cta {
@@ -321,6 +371,7 @@
     /* MOBILE */
 
     @media (max-width: 800px) {
+
       .nav-links a:not(.nav-button) {
         display: none;
       }
@@ -334,37 +385,58 @@
       }
 
       .cards,
-      .steps {
+      .steps,
+      .contact-grid {
         grid-template-columns: 1fr;
       }
 
       section {
         padding: 70px 6%;
       }
+
+      .cta-wrap {
+        padding: 70px 6%;
+      }
     }
+
   </style>
 </head>
 
 <body>
 
+  <!-- NAVIGATION -->
+
   <nav>
-    <div class="logo">Ojira<span>Soft</span></div>
+
+    <div class="logo">
+      Ojira<span>Soft</span>
+    </div>
 
     <div class="nav-links">
       <a href="#services">Services</a>
-      <a href="#how">How it works</a>
+      <a href="#how">How It Works</a>
       <a href="#contact">Contact</a>
-      <a class="nav-button" href="mailto:info@ojirasoft.cloud">Get Started</a>
+
+      <a class="nav-button"
+         href="mailto:info@ojirasoft.cloud?subject=OjiraSoft%20Enquiry">
+        Get Started
+      </a>
     </div>
+
   </nav>
 
 
   <main>
 
+    <!-- HERO -->
+
     <section class="hero">
+
       <div class="hero-content">
 
-        <div class="tag">AI-Powered Business Automation</div>
+        <div class="tag">
+          AI-Powered Business Automation
+        </div>
 
         <h1>
           Work smarter.<br>
@@ -374,84 +446,115 @@
         <p>
           OjiraSoft helps businesses automate repetitive tasks,
           customer communication and everyday workflows with practical
-          AI solutions — giving your team more time to focus on growth.
+          AI solutions — giving your team more time to focus on customers
+          and growth.
         </p>
 
         <div class="buttons">
-          <a class="button primary" href="mailto:info@ojirasoft.cloud">
+
+          <a class="button primary"
+             href="mailto:info@ojirasoft.cloud?subject=I%20Want%20to%20Automate%20My%20Business">
             Start Automating
           </a>
 
           <a class="button secondary" href="#services">
             Explore Services
           </a>
+
         </div>
 
       </div>
+
     </section>
 
+
+    <!-- SERVICES -->
 
     <section class="services" id="services">
 
       <div class="section-title">
-        <span>What we do</span>
-        <h2>Automation built around your business</h2>
+
+        <span>What We Do</span>
+
+        <h2>
+          Automation built around your business
+        </h2>
+
         <p>
           We create practical automation systems designed to reduce
           repetitive work and make everyday business operations easier.
         </p>
+
       </div>
+
 
       <div class="cards">
 
         <div class="card">
           <div class="icon">✦</div>
+
           <h3>AI Automation</h3>
+
           <p>
             Automate repetitive administrative tasks and create smarter
             workflows that save your team valuable time.
           </p>
         </div>
 
+
         <div class="card">
           <div class="icon">✉</div>
+
           <h3>Email Automation</h3>
+
           <p>
             Create automated welcome emails, follow-ups, notifications
             and customer communication workflows.
           </p>
         </div>
 
+
         <div class="card">
           <div class="icon">⚡</div>
+
           <h3>Workflow Automation</h3>
+
           <p>
             Connect your business processes and reduce manual steps
             across the tools your company already uses.
           </p>
         </div>
 
+
         <div class="card">
           <div class="icon">◎</div>
+
           <h3>Customer Support</h3>
+
           <p>
             Build intelligent systems that help answer common questions
             and route customer requests efficiently.
           </p>
         </div>
 
+
         <div class="card">
           <div class="icon">↗</div>
+
           <h3>Lead Management</h3>
+
           <p>
             Capture inquiries, organize leads and automate follow-ups
             so potential customers don't get forgotten.
           </p>
         </div>
 
+
         <div class="card">
           <div class="icon">⚙</div>
+
           <h3>Custom Solutions</h3>
+
           <p>
             Need something specific? We design automation workflows
             around the way your business actually operates.
@@ -459,58 +562,170 @@
         </div>
 
       </div>
+
     </section>
 
+
+    <!-- HOW IT WORKS -->
 
     <section id="how">
 
       <div class="section-title">
-        <span>Simple process</span>
-        <h2>From repetitive work to automation</h2>
+
+        <span>Simple Process</span>
+
+        <h2>
+          From repetitive work to automation
+        </h2>
+
         <p>
           We focus on the processes that take up your time and turn
           them into simpler automated workflows.
         </p>
+
       </div>
+
 
       <div class="steps">
 
         <div class="step">
-          <div class="step-number">1</div>
+
+          <div class="step-number">
+            1
+          </div>
+
           <h3>Discover</h3>
+
           <p>
             We identify repetitive tasks and bottlenecks in your
             current workflow.
           </p>
+
         </div>
 
+
         <div class="step">
-          <div class="step-number">2</div>
+
+          <div class="step-number">
+            2
+          </div>
+
           <h3>Build</h3>
+
           <p>
             We design an automation solution around your business
             needs and existing tools.
           </p>
+
         </div>
 
+
         <div class="step">
-          <div class="step-number">3</div>
+
+          <div class="step-number">
+            3
+          </div>
+
           <h3>Automate</h3>
+
           <p>
             Your workflow runs with less manual work while you focus
             on customers and growth.
           </p>
+
         </div>
 
       </div>
+
     </section>
 
 
-    <div class="cta-wrap" id="contact">
+    <!-- CONTACT DETAILS -->
+
+    <section class="contact" id="contact">
+
+      <div class="section-title">
+
+        <span>Contact Us</span>
+
+        <h2>
+          Let's talk about your business
+        </h2>
+
+        <p>
+          Contact OjiraSoft to discuss how AI and automation could
+          simplify your business processes.
+        </p>
+
+      </div>
+
+
+      <div class="contact-grid">
+
+        <div class="contact-card">
+
+          <div class="contact-icon">
+            📍
+          </div>
+
+          <h3>Office</h3>
+
+          <p>
+            I. Fließstraße 6A<br>
+            45356 Essen<br>
+            Germany
+          </p>
+
+        </div>
+
+
+        <div class="contact-card">
+
+          <div class="contact-icon">
+            📞
+          </div>
+
+          <h3>Phone</h3>
+
+          <p>
+            <a href="tel:+4917624853542">
+              +49 176 24853542
+            </a>
+          </p>
+
+        </div>
+
+
+        <div class="contact-card">
+
+          <div class="contact-icon">
+            ✉️
+          </div>
+
+          <h3>Email</h3>
+
+          <p>
+            <a href="mailto:info@ojirasoft.cloud">
+              info@ojirasoft.cloud
+            </a>
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CALL TO ACTION -->
+
+    <div class="cta-wrap">
 
       <div class="cta">
 
-        <h2>Ready to automate your business?</h2>
+        <h2>
+          Ready to automate your business?
+        </h2>
 
         <p>
           Tell us which repetitive tasks are taking up your time.
@@ -529,6 +744,8 @@
   </main>
 
 
+  <!-- FOOTER -->
+
   <footer>
 
     <div>
@@ -536,6 +753,11 @@
     </div>
 
     <div>
+      Essen, Germany &nbsp; | &nbsp;
+      <a href="tel:+4917624853542">
+        +49 176 24853542
+      </a>
+      &nbsp; | &nbsp;
       <a href="mailto:info@ojirasoft.cloud">
         info@ojirasoft.cloud
       </a>
@@ -545,4 +767,3 @@
 
 </body>
 </html>
-<div class="cta-wrap" id="contact">
