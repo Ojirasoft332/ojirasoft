@@ -3,52 +3,122 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ojira Soft</title>
+
+  <title>OjiraSoft | AI Automation for Modern Businesses</title>
+  <meta name="description" content="OjiraSoft helps businesses automate repetitive work, customer communication and everyday processes using AI.">
 
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       background: #07111f;
-      color: white;
+      color: #ffffff;
       line-height: 1.6;
     }
 
+    /* NAVIGATION */
+
     nav {
+      width: 100%;
+      padding: 22px 7%;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 25px 8%;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky;
+      top: 0;
+      background: rgba(7,17,31,0.94);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
     }
 
     .logo {
-      font-size: 26px;
-      font-weight: bold;
+      font-size: 27px;
+      font-weight: 800;
+      letter-spacing: -1px;
     }
 
     .logo span {
       color: #42d3ff;
     }
 
-    .hero {
-      min-height: 75vh;
+    .nav-links {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      gap: 28px;
       align-items: center;
-      text-align: center;
-      padding: 40px 20px;
+    }
+
+    .nav-links a {
+      color: #c9d4e4;
+      text-decoration: none;
+      font-size: 15px;
+    }
+
+    .nav-links a:hover {
+      color: #42d3ff;
+    }
+
+    .nav-button {
+      padding: 10px 18px;
+      background: #42d3ff;
+      color: #07111f !important;
+      border-radius: 7px;
+      font-weight: bold;
+    }
+
+    /* HERO */
+
+    .hero {
+      min-height: 82vh;
+      padding: 100px 8% 80px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: rgba(66,211,255,0.12);
+      filter: blur(100px);
+      right: -120px;
+      top: 20px;
+    }
+
+    .hero-content {
+      max-width: 850px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .tag {
+      display: inline-block;
+      color: #42d3ff;
+      border: 1px solid rgba(66,211,255,0.35);
+      background: rgba(66,211,255,0.07);
+      padding: 7px 14px;
+      border-radius: 50px;
+      margin-bottom: 25px;
+      font-size: 14px;
     }
 
     .hero h1 {
-      font-size: clamp(42px, 8vw, 78px);
-      max-width: 900px;
-      line-height: 1.05;
+      font-size: clamp(46px, 7vw, 82px);
+      line-height: 1.03;
+      letter-spacing: -3px;
       margin-bottom: 25px;
     }
 
@@ -58,54 +128,219 @@
 
     .hero p {
       max-width: 700px;
-      color: #b9c4d4;
       font-size: 19px;
+      color: #aebed2;
       margin-bottom: 35px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
     }
 
     .button {
       display: inline-block;
-      background: #42d3ff;
-      color: #07111f;
       text-decoration: none;
-      padding: 15px 28px;
+      padding: 15px 25px;
       border-radius: 8px;
       font-weight: bold;
     }
 
-    .services {
-      padding: 70px 8%;
-      text-align: center;
+    .primary {
+      background: #42d3ff;
+      color: #07111f;
     }
 
-    .services h2 {
-      font-size: 36px;
-      margin-bottom: 35px;
+    .secondary {
+      border: 1px solid #33445c;
+      color: white;
+    }
+
+    .secondary:hover {
+      border-color: #42d3ff;
+    }
+
+    /* SECTIONS */
+
+    section {
+      padding: 90px 8%;
+    }
+
+    .section-title {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 55px;
+    }
+
+    .section-title span {
+      color: #42d3ff;
+      font-weight: bold;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(32px, 5vw, 48px);
+      margin: 10px 0 15px;
+    }
+
+    .section-title p {
+      color: #9fb0c5;
+    }
+
+    /* SERVICES */
+
+    .services {
+      background: #091522;
     }
 
     .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      max-width: 1000px;
+      max-width: 1150px;
       margin: auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
     }
 
     .card {
-      background: #101d2e;
-      padding: 30px;
-      border-radius: 12px;
+      background: #0d1b2b;
+      border: 1px solid #172b40;
+      border-radius: 14px;
+      padding: 32px;
+      transition: 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: #42d3ff;
+    }
+
+    .icon {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(66,211,255,0.10);
+      border-radius: 10px;
+      font-size: 22px;
+      margin-bottom: 20px;
     }
 
     .card h3 {
-      color: #42d3ff;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      font-size: 21px;
     }
 
-    footer {
+    .card p {
+      color: #9fb0c5;
+      font-size: 15px;
+    }
+
+    /* HOW IT WORKS */
+
+    .steps {
+      max-width: 1000px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .step {
       text-align: center;
-      padding: 30px;
-      color: #8997aa;
+      padding: 20px;
+    }
+
+    .step-number {
+      margin: 0 auto 20px;
+      width: 55px;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #42d3ff;
+      color: #07111f;
+      font-weight: bold;
+      font-size: 20px;
+      border-radius: 50%;
+    }
+
+    .step p {
+      color: #9fb0c5;
+      margin-top: 10px;
+    }
+
+    /* CTA */
+
+    .cta-wrap {
+      padding: 40px 8% 100px;
+    }
+
+    .cta {
+      max-width: 1100px;
+      margin: auto;
+      background: linear-gradient(135deg, #10263b, #0b1a2b);
+      border: 1px solid #1c3a52;
+      padding: 65px 30px;
+      text-align: center;
+      border-radius: 18px;
+    }
+
+    .cta h2 {
+      font-size: clamp(30px, 5vw, 46px);
+      margin-bottom: 15px;
+    }
+
+    .cta p {
+      color: #aebed2;
+      max-width: 650px;
+      margin: 0 auto 28px;
+    }
+
+    /* FOOTER */
+
+    footer {
+      border-top: 1px solid #172536;
+      padding: 35px 8%;
+      color: #8294aa;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: #42d3ff;
+      text-decoration: none;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 800px) {
+      .nav-links a:not(.nav-button) {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 75px;
+      }
+
+      .hero h1 {
+        letter-spacing: -2px;
+      }
+
+      .cards,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 70px 6%;
+      }
     }
   </style>
 </head>
@@ -113,46 +348,199 @@
 <body>
 
   <nav>
-    <div class="logo">OJIRA<span>SOFT</span></div>
-    <a class="button" href="mailto:info@ojirasoft.cloud">Contact Us</a>
+    <div class="logo">Ojira<span>Soft</span></div>
+
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#how">How it works</a>
+      <a href="#contact">Contact</a>
+      <a class="nav-button" href="mailto:info@ojirasoft.cloud">Get Started</a>
+    </div>
   </nav>
 
-  <main class="hero">
-    <h1>Building Smarter <span>Digital Solutions.</span></h1>
 
-    <p>
-      Ojira Soft helps businesses turn ideas into practical digital
-      solutions through modern technology, automation and software.
-    </p>
+  <main>
 
-    <a class="button" href="mailto:info@ojirasoft.cloud">
-      Start a Project
-    </a>
+    <section class="hero">
+      <div class="hero-content">
+
+        <div class="tag">AI-Powered Business Automation</div>
+
+        <h1>
+          Work smarter.<br>
+          Automate <span>what slows you down.</span>
+        </h1>
+
+        <p>
+          OjiraSoft helps businesses automate repetitive tasks,
+          customer communication and everyday workflows with practical
+          AI solutions — giving your team more time to focus on growth.
+        </p>
+
+        <div class="buttons">
+          <a class="button primary" href="mailto:info@ojirasoft.cloud">
+            Start Automating
+          </a>
+
+          <a class="button secondary" href="#services">
+            Explore Services
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+
+    <section class="services" id="services">
+
+      <div class="section-title">
+        <span>What we do</span>
+        <h2>Automation built around your business</h2>
+        <p>
+          We create practical automation systems designed to reduce
+          repetitive work and make everyday business operations easier.
+        </p>
+      </div>
+
+      <div class="cards">
+
+        <div class="card">
+          <div class="icon">✦</div>
+          <h3>AI Automation</h3>
+          <p>
+            Automate repetitive administrative tasks and create smarter
+            workflows that save your team valuable time.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">✉</div>
+          <h3>Email Automation</h3>
+          <p>
+            Create automated welcome emails, follow-ups, notifications
+            and customer communication workflows.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">⚡</div>
+          <h3>Workflow Automation</h3>
+          <p>
+            Connect your business processes and reduce manual steps
+            across the tools your company already uses.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">◎</div>
+          <h3>Customer Support</h3>
+          <p>
+            Build intelligent systems that help answer common questions
+            and route customer requests efficiently.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">↗</div>
+          <h3>Lead Management</h3>
+          <p>
+            Capture inquiries, organize leads and automate follow-ups
+            so potential customers don't get forgotten.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">⚙</div>
+          <h3>Custom Solutions</h3>
+          <p>
+            Need something specific? We design automation workflows
+            around the way your business actually operates.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+
+    <section id="how">
+
+      <div class="section-title">
+        <span>Simple process</span>
+        <h2>From repetitive work to automation</h2>
+        <p>
+          We focus on the processes that take up your time and turn
+          them into simpler automated workflows.
+        </p>
+      </div>
+
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Discover</h3>
+          <p>
+            We identify repetitive tasks and bottlenecks in your
+            current workflow.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Build</h3>
+          <p>
+            We design an automation solution around your business
+            needs and existing tools.
+          </p>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Automate</h3>
+          <p>
+            Your workflow runs with less manual work while you focus
+            on customers and growth.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+
+    <div class="cta-wrap" id="contact">
+
+      <div class="cta">
+
+        <h2>Ready to automate your business?</h2>
+
+        <p>
+          Tell us which repetitive tasks are taking up your time.
+          We'll help you explore how automation can make them simpler.
+        </p>
+
+        <a class="button primary"
+           href="mailto:info@ojirasoft.cloud?subject=OjiraSoft%20Automation%20Enquiry">
+          Contact OjiraSoft
+        </a>
+
+      </div>
+
+    </div>
+
   </main>
 
-  <section class="services">
-    <h2>What We Do</h2>
-
-    <div class="cards">
-      <div class="card">
-        <h3>Web Development</h3>
-        <p>Modern, responsive websites built for businesses and organizations.</p>
-      </div>
-
-      <div class="card">
-        <h3>Automation</h3>
-        <p>Smart workflows that reduce repetitive work and improve efficiency.</p>
-      </div>
-
-      <div class="card">
-        <h3>Digital Solutions</h3>
-        <p>Practical technology solutions designed around your business needs.</p>
-      </div>
-    </div>
-  </section>
 
   <footer>
-    © 2026 Ojira Soft · info@ojirasoft.cloud
+
+    <div>
+      © 2026 OjiraSoft. All rights reserved.
+    </div>
+
+    <div>
+      <a href="mailto:info@ojirasoft.cloud">
+        info@ojirasoft.cloud
+      </a>
+    </div>
+
   </footer>
 
 </body>
