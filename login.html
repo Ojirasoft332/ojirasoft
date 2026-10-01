@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Sign In | OjiraSoft</title> 
+  <title>Sign In | OjiraSoft</title>
+
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -229,6 +231,11 @@
       background: #3157c8;
     }
 
+    .primary-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
     .notice {
       background: #eef3ff;
       color: #44516b;
@@ -278,6 +285,8 @@
 <body>
 
   <main class="page">
+
+    <!-- LEFT SIDE -->
 
     <section class="brand-side">
 
@@ -330,6 +339,8 @@
     </section>
 
 
+    <!-- RIGHT SIDE -->
+
     <section class="login-side">
 
       <div class="login-box">
@@ -338,12 +349,16 @@
           OjiraSoft
         </div>
 
-        <h2 id="heading">Welcome back</h2>
+        <h2 id="heading">
+          Welcome back
+        </h2>
 
         <p class="subtitle" id="subtitle">
           Sign in to manage your OjiraSoft workspace.
         </p>
 
+
+        <!-- TABS -->
 
         <div class="tabs">
 
@@ -366,14 +381,15 @@
         </div>
 
 
-        <!-- SIGN IN -->
+        <!-- SIGN IN FORM -->
 
         <form
           id="loginForm"
           class="form active"
-          onsubmit="demoLogin(event)">
+          onsubmit="login(event)">
 
           <div class="field">
+
             <label for="loginEmail">
               Email address
             </label>
@@ -382,7 +398,9 @@
               id="loginEmail"
               type="email"
               placeholder="you@company.com"
+              autocomplete="email"
               required>
+
           </div>
 
 
@@ -394,7 +412,9 @@
                 Password
               </label>
 
-              <a href="#" onclick="return false;">
+              <a
+                href="#"
+                onclick="forgotPassword(event)">
                 Forgot password?
               </a>
 
@@ -404,19 +424,23 @@
               id="loginPassword"
               type="password"
               placeholder="Enter your password"
+              autocomplete="current-password"
               required>
 
           </div>
 
 
-          <button class="primary-btn" type="submit">
+          <button
+            id="loginButton"
+            class="primary-btn"
+            type="submit">
             Sign in to OjiraSoft
           </button>
 
         </form>
 
 
-        <!-- CREATE ACCOUNT -->
+        <!-- CREATE ACCOUNT FORM -->
 
         <form
           id="signupForm"
@@ -433,6 +457,7 @@
               id="name"
               type="text"
               placeholder="Your name"
+              autocomplete="name"
               required>
 
           </div>
@@ -462,6 +487,7 @@
               id="signupEmail"
               type="email"
               placeholder="you@company.com"
+              autocomplete="email"
               required>
 
           </div>
@@ -478,12 +504,16 @@
               type="password"
               minlength="8"
               placeholder="At least 8 characters"
+              autocomplete="new-password"
               required>
 
           </div>
 
 
-          <button class="primary-btn" type="submit">
+          <button
+            id="signupButton"
+            class="primary-btn"
+            type="submit">
             Create OjiraSoft Account
           </button>
 
@@ -491,8 +521,7 @@
 
 
         <div class="notice">
-          Secure account authentication will be connected
-          in the next setup step.
+          Secure account authentication powered by Supabase.
         </div>
 
 
@@ -510,6 +539,27 @@
 
 
   <script>
+
+    /* ========================================
+       OJIRASOFT SUPABASE CONFIGURATION
+       ======================================== */
+
+    const SUPABASE_URL =
+      "https://iyyqicsgxcatzdudfozh.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_y63laui8tnFpVR05Ie6-xQ_UhnmnqhZ";
+
+    const supabaseClient =
+      supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    /* ========================================
+       SWITCH TO SIGN IN
+       ======================================== */
 
     function showLogin() {
 
@@ -529,14 +579,21 @@
         .getElementById("signupTab")
         .classList.remove("active");
 
-      document.getElementById("heading").textContent =
+      document
+        .getElementById("heading")
+        .textContent =
         "Welcome back";
 
-      document.getElementById("subtitle").textContent =
+      document
+        .getElementById("subtitle")
+        .textContent =
         "Sign in to manage your OjiraSoft workspace.";
-
     }
 
+
+    /* ========================================
+       SWITCH TO CREATE ACCOUNT
+       ======================================== */
 
     function showSignup() {
 
@@ -556,60 +613,381 @@
         .getElementById("loginTab")
         .classList.remove("active");
 
-      document.getElementById("heading").textContent =
+      document
+        .getElementById("heading")
+        .textContent =
         "Create your account";
 
-      document.getElementById("subtitle").textContent =
+      document
+        .getElementById("subtitle")
+        .textContent =
         "Start building your automated business workspace.";
+    }
+
+
+    /* ========================================
+       CREATE ACCOUNT
+       ======================================== */
+
+    async function signup(event) {
+
+      event.preventDefault();
+
+      const button =
+        document.getElementById("signupButton");
+
+      const fullName =
+        document
+          .getElementById("name")
+          .value
+          .trim();
+
+      const businessName =
+        document
+          .getElementById("business")
+          .value
+          .trim();
+
+      const email =
+        document
+          .getElementById("signupEmail")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("signupPassword")
+          .value;
+
+
+      if (!fullName) {
+        alert("Please enter your full name.");
+        return;
+      }
+
+
+      if (!email) {
+        alert("Please enter your email address.");
+        return;
+      }
+
+
+      if (password.length < 8) {
+        alert(
+          "Your password must contain at least 8 characters."
+        );
+        return;
+      }
+
+
+      button.disabled = true;
+      button.textContent =
+        "Creating account...";
+
+
+      try {
+
+        const { data, error } =
+          await supabaseClient.auth.signUp({
+
+            email: email,
+
+            password: password,
+
+            options: {
+
+              data: {
+                full_name: fullName,
+                business_name: businessName
+              },
+
+              emailRedirectTo:
+                window.location.origin +
+                "/login.html"
+
+            }
+
+          });
+
+
+        if (error) {
+
+          alert(
+            "Account creation failed: " +
+            error.message
+          );
+
+          return;
+        }
+
+
+        if (data.session) {
+
+          window.location.href =
+            "dashboard.html";
+
+          return;
+        }
+
+
+        alert(
+          "Account created successfully! Please check your email and confirm your account. Then return here and sign in."
+        );
+
+
+        showLogin();
+
+
+        document
+          .getElementById("loginEmail")
+          .value = email;
+
+
+        document
+          .getElementById("signupForm")
+          .reset();
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Something went wrong while creating your account. Please try again."
+        );
+
+      }
+
+      finally {
+
+        button.disabled = false;
+
+        button.textContent =
+          "Create OjiraSoft Account";
+
+      }
 
     }
 
-const SUPABASE_URL = "https://iyyqicsgxcatzdudfozh.supabase.co";
-const SUPABASE_KEY = "sb_publishable_y63laui8tnFpVR05Ie6-xQ_UhnmnqhZ";
 
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+    /* ========================================
+       SIGN IN
+       ======================================== */
 
-async function demoLogin(event) {
-  event.preventDefault();
+    async function login(event) {
 
-  const email = document.getElementById("loginEmail").value;
-  const password = document.getElementById("loginPassword").value;
+      event.preventDefault();
 
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email: email,
-    password: password
-  });
+      const button =
+        document.getElementById("loginButton");
 
-  if (error) {
-    alert(error.message);
-    return;
-  }
+      const email =
+        document
+          .getElementById("loginEmail")
+          .value
+          .trim();
 
-  window.location.href = "dashboard.html";
-}
-    
-
-      
-
-      
-        
-      
-
-    
+      const password =
+        document
+          .getElementById("loginPassword")
+          .value;
 
 
+      if (!email || !password) {
+
+        alert(
+          "Please enter your email and password."
+        );
+
+        return;
+
+      }
 
 
+      button.disabled = true;
+
+      button.textContent =
+        "Signing in...";
 
 
+      try {
+
+        const { data, error } =
+          await supabaseClient.auth
+            .signInWithPassword({
+
+              email: email,
+
+              password: password
+
+            });
 
 
+        if (error) {
+
+          alert(
+            "Sign in failed: " +
+            error.message
+          );
+
+          return;
+        }
 
 
-  
+        if (data.session) {
+
+          window.location.href =
+            "dashboard.html";
+
+        }
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Something went wrong while signing in. Please try again."
+        );
+
+      }
+
+      finally {
+
+        button.disabled = false;
+
+        button.textContent =
+          "Sign in to OjiraSoft";
+
+      }
+
+    }
+
+
+    /* ========================================
+       FORGOT PASSWORD
+       ======================================== */
+
+    async function forgotPassword(event) {
+
+      event.preventDefault();
+
+      let email =
+        document
+          .getElementById("loginEmail")
+          .value
+          .trim();
+
+
+      if (!email) {
+
+        email = prompt(
+          "Enter the email address for your OjiraSoft account:"
+        );
+
+      }
+
+
+      if (!email) {
+        return;
+      }
+
+
+      try {
+
+        const { error } =
+          await supabaseClient.auth
+            .resetPasswordForEmail(
+              email,
+              {
+                redirectTo:
+                  window.location.origin +
+                  "/login.html"
+              }
+            );
+
+
+        if (error) {
+
+          alert(
+            "Password reset failed: " +
+            error.message
+          );
+
+          return;
+        }
+
+
+        alert(
+          "Password reset email sent. Please check your inbox."
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Unable to send the password reset email. Please try again."
+        );
+
+      }
+
+    }
+
+
+    /* ========================================
+       CHECK SESSION
+       ======================================== */
+
+    async function checkSession() {
+
+      try {
+
+        const { data, error } =
+          await supabaseClient.auth
+            .getSession();
+
+
+        if (error) {
+
+          console.error(
+            "Session check error:",
+            error
+          );
+
+          return;
+
+        }
+
+
+        if (data.session) {
+
+          console.log(
+            "OjiraSoft user is authenticated."
+          );
+
+        }
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Session check failed:",
+          error
+        );
+
+      }
+
+    }
+
+
+    checkSession();
+
   </script>
 
 </body>
