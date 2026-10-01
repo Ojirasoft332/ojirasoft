@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Sign In | OjiraSoft</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, #18234d 0%, transparent 38%),
+        linear-gradient(135deg, #07111f, #0d1730);
+      color: white;
+      min-height: 100vh;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    /* LEFT SIDE */
+
+    .brand-side {
+      padding: 55px 8%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      color: #4d7cff;
+    }
+
+    .intro {
+      max-width: 600px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(77,124,255,.12);
+      border: 1px solid rgba(77,124,255,.35);
+      color: #8eabff;
+      padding: 8px 14px;
+      border-radius: 100px;
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    .intro h1 {
+      font-size: clamp(42px, 6vw, 72px);
+      line-height: 1.05;
+      margin-bottom: 24px;
+      letter-spacing: -2px;
+    }
+
+    .intro h1 span {
+      color: #4d7cff;
+    }
+
+    .intro p {
+      color: #aab4ca;
+      font-size: 18px;
+      line-height: 1.7;
+      max-width: 530px;
+    }
+
+    .features {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-top: 38px;
+      color: #cbd3e4;
+      font-size: 14px;
+    }
+
+    .feature {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .check {
+      color: #65e6a6;
+    }
+
+    .copyright {
+      color: #69758e;
+      font-size: 13px;
+      margin-top: 50px;
+    }
+
+    /* LOGIN SIDE */
+
+    .login-side {
+      background: #f7f9fc;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 440px;
+    }
+
+    .mobile-logo {
+      display: none;
+      margin-bottom: 30px;
+      font-size: 25px;
+      font-weight: 800;
+    }
+
+    .login-box h2 {
+      font-size: 34px;
+      margin-bottom: 10px;
+      letter-spacing: -1px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 34px;
+      line-height: 1.5;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #e9edf5;
+      padding: 5px;
+      border-radius: 10px;
+      margin-bottom: 28px;
+    }
+
+    .tab {
+      border: none;
+      background: transparent;
+      padding: 11px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: 700;
+      color: #667085;
+    }
+
+    .tab.active {
+      background: white;
+      color: #111827;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+
+    .form {
+      display: none;
+    }
+
+    .form.active {
+      display: block;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 15px;
+      border: 1px solid #d5dbe6;
+      border-radius: 9px;
+      font-size: 15px;
+      outline: none;
+      background: white;
+    }
+
+    input:focus {
+      border-color: #4d7cff;
+      box-shadow: 0 0 0 3px rgba(77,124,255,.1);
+    }
+
+    .password-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .password-row a {
+      font-size: 13px;
+      color: #4169e1;
+      text-decoration: none;
+    }
+
+    .primary-btn {
+      width: 100%;
+      border: none;
+      padding: 15px;
+      border-radius: 9px;
+      background: #4169e1;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .primary-btn:hover {
+      background: #3157c8;
+    }
+
+    .notice {
+      background: #eef3ff;
+      color: #44516b;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 20px;
+    }
+
+    .back-home {
+      text-align: center;
+      margin-top: 28px;
+    }
+
+    .back-home a {
+      color: #667085;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .back-home a:hover {
+      color: #4169e1;
+    }
+
+    @media (max-width: 850px) {
+      .page {
+        display: block;
+      }
+
+      .brand-side {
+        display: none;
+      }
+
+      .login-side {
+        min-height: 100vh;
+        padding: 30px 20px;
+      }
+
+      .mobile-logo {
+        display: block;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <section class="brand-side">
+
+      <div class="logo">
+        Ojira<span>Soft</span>
+      </div>
+
+      <div class="intro">
+
+        <div class="badge">
+          Business Automation Platform
+        </div>
+
+        <h1>
+          Automate the work.<br>
+          <span>Grow the business.</span>
+        </h1>
+
+        <p>
+          Bring customer communication, follow-ups,
+          business workflows and AI-powered automation
+          together in one simple platform.
+        </p>
+
+        <div class="features">
+
+          <div class="feature">
+            <span class="check">✓</span>
+            Automated workflows
+          </div>
+
+          <div class="feature">
+            <span class="check">✓</span>
+            Customer management
+          </div>
+
+          <div class="feature">
+            <span class="check">✓</span>
+            AI assistance
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="copyright">
+        © 2026 OjiraSoft · Essen, Germany
+      </div>
+
+    </section>
+
+
+    <section class="login-side">
+
+      <div class="login-box">
+
+        <div class="mobile-logo">
+          OjiraSoft
+        </div>
+
+        <h2 id="heading">Welcome back</h2>
+
+        <p class="subtitle" id="subtitle">
+          Sign in to manage your OjiraSoft workspace.
+        </p>
+
+
+        <div class="tabs">
+
+          <button
+            class="tab active"
+            id="loginTab"
+            type="button"
+            onclick="showLogin()">
+            Sign In
+          </button>
+
+          <button
+            class="tab"
+            id="signupTab"
+            type="button"
+            onclick="showSignup()">
+            Create Account
+          </button>
+
+        </div>
+
+
+        <!-- SIGN IN -->
+
+        <form
+          id="loginForm"
+          class="form active"
+          onsubmit="demoLogin(event)">
+
+          <div class="field">
+            <label for="loginEmail">
+              Email address
+            </label>
+
+            <input
+              id="loginEmail"
+              type="email"
+              placeholder="you@company.com"
+              required>
+          </div>
+
+
+          <div class="field">
+
+            <div class="password-row">
+
+              <label for="loginPassword">
+                Password
+              </label>
+
+              <a href="#" onclick="return false;">
+                Forgot password?
+              </a>
+
+            </div>
+
+            <input
+              id="loginPassword"
+              type="password"
+              placeholder="Enter your password"
+              required>
+
+          </div>
+
+
+          <button class="primary-btn" type="submit">
+            Sign in to OjiraSoft
+          </button>
+
+        </form>
+
+
+        <!-- CREATE ACCOUNT -->
+
+        <form
+          id="signupForm"
+          class="form"
+          onsubmit="demoSignup(event)">
+
+          <div class="field">
+
+            <label for="name">
+              Full name
+            </label>
+
+            <input
+              id="name"
+              type="text"
+              placeholder="Your name"
+              required>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="business">
+              Business name
+            </label>
+
+            <input
+              id="business"
+              type="text"
+              placeholder="Your company">
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="signupEmail">
+              Email address
+            </label>
+
+            <input
+              id="signupEmail"
+              type="email"
+              placeholder="you@company.com"
+              required>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="signupPassword">
+              Create password
+            </label>
+
+            <input
+              id="signupPassword"
+              type="password"
+              minlength="8"
+              placeholder="At least 8 characters"
+              required>
+
+          </div>
+
+
+          <button class="primary-btn" type="submit">
+            Create OjiraSoft Account
+          </button>
+
+        </form>
+
+
+        <div class="notice">
+          Secure account authentication will be connected
+          in the next setup step.
+        </div>
+
+
+        <div class="back-home">
+          <a href="index.html">
+            ← Back to OjiraSoft
+          </a>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    function showLogin() {
+
+      document
+        .getElementById("loginForm")
+        .classList.add("active");
+
+      document
+        .getElementById("signupForm")
+        .classList.remove("active");
+
+      document
+        .getElementById("loginTab")
+        .classList.add("active");
+
+      document
+        .getElementById("signupTab")
+        .classList.remove("active");
+
+      document.getElementById("heading").textContent =
+        "Welcome back";
+
+      document.getElementById("subtitle").textContent =
+        "Sign in to manage your OjiraSoft workspace.";
+
+    }
+
+
+    function showSignup() {
+
+      document
+        .getElementById("signupForm")
+        .classList.add("active");
+
+      document
+        .getElementById("loginForm")
+        .classList.remove("active");
+
+      document
+        .getElementById("signupTab")
+        .classList.add("active");
+
+      document
+        .getElementById("loginTab")
+        .classList.remove("active");
+
+      document.getElementById("heading").textContent =
+        "Create your account";
+
+      document.getElementById("subtitle").textContent =
+        "Start building your automated business workspace.";
+
+    }
+
+
+    function demoLogin(event) {
+
+      event.preventDefault();
+
+      alert(
+        "The page is ready. We will connect secure login next."
+      );
+
+    }
+
+
+    function demoSignup(event) {
+
+      event.preventDefault();
+
+      alert(
+        "The sign-up page is ready. We will connect account creation next."
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>
