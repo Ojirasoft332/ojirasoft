@@ -1,2038 +1,826 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quote Generator | OjiraSoft</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f7fb;
-      color: #172033;
-    }
-
-    /* =========================
-       SIDEBAR
-    ========================== */
-
-    .sidebar {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 240px;
-      height: 100vh;
-      background: #101828;
-      color: white;
-      padding: 30px 20px;
-      z-index: 20;
-    }
-
-    .logo {
-      font-size: 25px;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-
-    .logo span {
-      color: #6c63ff;
-    }
-
-    .tagline {
-      font-size: 12px;
-      color: #98a2b3;
-      margin-bottom: 35px;
-    }
-
-    .nav a {
-      display: block;
-      padding: 13px 14px;
-      margin-bottom: 7px;
-      text-decoration: none;
-      color: #d0d5dd;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-
-    .nav a:hover,
-    .nav a.active {
-      background: #344054;
-      color: white;
-    }
-
-    /* =========================
-       MAIN PAGE
-    ========================== */
-
-    .main {
-      margin-left: 240px;
-      padding: 35px;
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-    }
-
-    .topbar h1 {
-      font-size: 28px;
-    }
-
-    .topbar p {
-      color: #667085;
-      margin-top: 6px;
-      font-size: 14px;
-    }
-
-    .back-btn {
-      background: white;
-      border: 1px solid #d0d5dd;
-      padding: 10px 16px;
-      border-radius: 8px;
-      text-decoration: none;
-      color: #344054;
-      font-size: 14px;
-    }
-
-    /* =========================
-       CARDS
-    ========================== */
-
-    .card {
-      background: white;
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 22px;
-      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
-    }
-
-    .card h2 {
-      font-size: 18px;
-      margin-bottom: 18px;
-    }
-
-    .section-description {
-      color: #667085;
-      font-size: 13px;
-      margin-top: -10px;
-      margin-bottom: 20px;
-    }
-
-    /* =========================
-       FORMS
-    ========================== */
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 18px;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-    }
-
-    label {
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 7px;
-      color: #344054;
-    }
-
-    input,
-    select,
-    textarea {
-      width: 100%;
-      padding: 11px 12px;
-      border: 1px solid #d0d5dd;
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-      background: white;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: #6c63ff;
-      box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.10);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 90px;
-    }
-
-    .logo-preview {
-      margin-top: 10px;
-      max-width: 140px;
-      max-height: 80px;
-      object-fit: contain;
-      display: none;
-    }
-
-    /* =========================
-       ITEMS
-    ========================== */
-
-    .items-wrapper {
-      overflow-x: auto;
-    }
-
-    .items-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-
-    .items-table th {
-      text-align: left;
-      font-size: 12px;
-      color: #667085;
-      padding: 10px 7px;
-      border-bottom: 1px solid #eaecf0;
-    }
-
-    .items-table td {
-      padding: 8px 6px;
-    }
-
-    .items-table input {
-      padding: 9px;
-    }
-
-    .description {
-      min-width: 240px;
-    }
-
-    .remove-btn {
-      border: none;
-      background: #fee4e2;
-      color: #b42318;
-      width: 34px;
-      height: 34px;
-      border-radius: 7px;
-      cursor: pointer;
-      font-size: 18px;
-    }
-
-    .add-item {
-      margin-top: 14px;
-      border: 1px dashed #6c63ff;
-      background: #f8f7ff;
-      color: #554bd8;
-      padding: 10px 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    /* =========================
-       TOTALS
-    ========================== */
-
-    .totals-container {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 25px;
-    }
-
-    .totals {
-      width: 360px;
-      background: #f9fafb;
-      border-radius: 10px;
-      padding: 18px;
-    }
-
-    .total-line {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 12px;
-      font-size: 14px;
-    }
-
-    .grand-total {
-      border-top: 1px solid #d0d5dd;
-      padding-top: 14px;
-      font-size: 20px;
-      font-weight: 800;
-    }
-
-    /* =========================
-       BUTTONS
-    ========================== */
-
-    .actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      margin-top: 25px;
-      margin-bottom: 50px;
-    }
-
-    .btn {
-      border: none;
-      border-radius: 9px;
-      padding: 13px 20px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .btn-preview {
-      background: white;
-      border: 1px solid #d0d5dd;
-      color: #344054;
-    }
-
-    .btn-primary {
-      background: #6c63ff;
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: #554bd8;
-    }
-
-    /* =========================
-       QUOTE PREVIEW MODAL
-    ========================== */
-
-    .preview-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(16, 24, 40, 0.75);
-      z-index: 9999;
-      overflow-y: auto;
-      padding: 30px 15px;
-    }
-
-    .preview-overlay.show {
-      display: block;
-    }
-
-    .preview-toolbar {
-      width: 794px;
-      max-width: 100%;
-      margin: 0 auto 12px auto;
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .preview-toolbar button {
-      border: none;
-      border-radius: 8px;
-      padding: 11px 16px;
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    .close-preview {
-      background: white;
-      color: #344054;
-    }
-
-    .print-preview {
-      background: #6c63ff;
-      color: white;
-    }
-
-    /* =========================
-       ACTUAL QUOTE DOCUMENT
-    ========================== */
-
-    #quoteDocument {
-      width: 794px;
-      min-height: 1123px;
-      margin: 0 auto;
-      padding: 55px;
-      background: #ffffff;
-      color: #1d2939;
-      font-family: Arial, Helvetica, sans-serif;
-      box-shadow: 0 8px 35px rgba(0, 0, 0, 0.18);
-    }
-
-    .document-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 30px;
-      border-bottom: 3px solid #6c63ff;
-      padding-bottom: 25px;
-      margin-bottom: 35px;
-    }
-
-    .document-company {
-      max-width: 55%;
-    }
-
-    .document-logo {
-      max-width: 150px;
-      max-height: 80px;
-      object-fit: contain;
-      margin-bottom: 12px;
-      display: none;
-    }
-
-    .document-company h2 {
-      font-size: 24px;
-      margin-bottom: 8px;
-      word-break: break-word;
-    }
-
-    .document-company p {
-      font-size: 12px;
-      line-height: 1.6;
-      color: #667085;
-      word-break: break-word;
-    }
-
-    .quote-title {
-      text-align: right;
-      min-width: 220px;
-    }
-
-    .quote-title h1 {
-      color: #6c63ff;
-      font-size: 34px;
-      letter-spacing: 2px;
-      margin-bottom: 12px;
-    }
-
-    .quote-title p {
-      font-size: 12px;
-      margin-top: 7px;
-      color: #667085;
-    }
-
-    .document-customer {
-      margin-bottom: 30px;
-    }
-
-    .document-customer small {
-      color: #667085;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-
-    .document-customer h3 {
-      margin-top: 7px;
-      margin-bottom: 5px;
-      font-size: 18px;
-    }
-
-    .document-customer p {
-      font-size: 13px;
-      line-height: 1.6;
-      word-break: break-word;
-    }
-
-    .document-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 25px;
-    }
-
-    .document-table th {
-      background: #f2f4f7;
-      padding: 12px;
-      text-align: left;
-      font-size: 12px;
-      color: #344054;
-    }
-
-    .document-table td {
-      padding: 13px 12px;
-      border-bottom: 1px solid #eaecf0;
-      font-size: 13px;
-      vertical-align: top;
-    }
-
-    .document-table th:nth-child(2),
-    .document-table th:nth-child(3),
-    .document-table th:nth-child(4),
-    .document-table td:nth-child(2),
-    .document-table td:nth-child(3),
-    .document-table td:nth-child(4) {
-      text-align: right;
-    }
-
-    .doc-totals {
-      width: 300px;
-      margin-left: auto;
-      margin-top: 25px;
-    }
-
-    .doc-total-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 7px 0;
-      font-size: 13px;
-    }
-
-    .doc-grand-total {
-      font-size: 19px;
-      font-weight: 800;
-      border-top: 2px solid #344054;
-      padding-top: 12px;
-      margin-top: 8px;
-    }
-
-    .document-notes {
-      margin-top: 45px;
-      border-top: 1px solid #eaecf0;
-      padding-top: 20px;
-    }
-
-    .document-notes h4 {
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
-
-    .document-notes p {
-      font-size: 12px;
-      line-height: 1.6;
-      white-space: pre-line;
-    }
-
-    .terms-heading {
-      margin-top: 20px;
-    }
-
-    .thank-you {
-      margin-top: 55px;
-      text-align: center;
-      color: #667085;
-      font-size: 12px;
-    }
-
-    .ojira-footer {
-      margin-top: 14px;
-      text-align: center;
-      color: #98a2b3;
-      font-size: 10px;
-    }
-
-    /* =========================
-       MOBILE
-    ========================== */
-
-    @media (max-width: 900px) {
-      .sidebar {
-        display: none;
-      }
-
-      .main {
-        margin-left: 0;
-        padding: 20px;
-      }
-
-      .grid,
-      .grid-3 {
-        grid-template-columns: 1fr;
-      }
-
-      .totals {
-        width: 100%;
-      }
-
-      .topbar {
-        align-items: flex-start;
-        gap: 15px;
-      }
-
-      #quoteDocument {
-        transform-origin: top left;
-      }
-    }
-
-    /* =========================
-       PRINT / SAVE AS PDF
-    ========================== */
-
-    @page {
-      size: A4;
-      margin: 0;
-    }
-
-    @media print {
-
-      html,
-      body {
-        width: 210mm;
-        min-height: 297mm;
-        margin: 0 !important;
-        padding: 0 !important;
-        background: white !important;
-      }
-
-      body * {
-        visibility: hidden !important;
-      }
-
-      #previewOverlay,
-      #previewOverlay * {
-        visibility: visible !important;
-      }
-
-      #previewOverlay {
-        position: absolute !important;
-        display: block !important;
-        inset: 0 !important;
-        width: 210mm !important;
-        min-height: 297mm !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        background: white !important;
-        overflow: visible !important;
-      }
-
-      .preview-toolbar {
-        display: none !important;
-      }
-
-      #quoteDocument {
-        position: absolute !important;
-        left: 0 !important;
-        top: 0 !important;
-        width: 210mm !important;
-        min-height: 297mm !important;
-        margin: 0 !important;
-        padding: 15mm !important;
-        background: white !important;
-        color: #1d2939 !important;
-        box-shadow: none !important;
-      }
-
-      .document-header,
-      .document-customer,
-      .doc-totals,
-      .document-notes,
-      .thank-you {
-        break-inside: avoid;
-        page-break-inside: avoid;
-      }
-
-      .document-table tr {
-        break-inside: avoid;
-        page-break-inside: avoid;
-      }
-
-      * {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quote Generator | OjiraSoft</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f7fb;
+  color:#172033;
+}
+button,input,select,textarea{font:inherit}
+.sidebar{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:230px;
+  background:#101828;
+  color:white;
+  padding:30px 20px;
+}
+.brand{font-size:26px;font-weight:800}
+.brand span{color:#948cff}
+.tagline{font-size:12px;color:#98a2b3;margin:10px 0 30px}
+.sidebar a{
+  display:block;
+  color:#d0d5dd;
+  text-decoration:none;
+  padding:13px;
+  border-radius:8px;
+  margin-bottom:8px;
+}
+.sidebar a.active,.sidebar a:hover{background:#344054;color:white}
+main{margin-left:230px;padding:32px;max-width:1450px}
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  margin-bottom:24px;
+}
+h1{margin:0 0 8px;font-size:28px}
+h2{margin:0 0 18px;font-size:19px}
+.muted{color:#667085;font-size:14px;line-height:1.6}
+.card{
+  background:white;
+  padding:24px;
+  border-radius:14px;
+  margin-bottom:22px;
+  box-shadow:0 3px 15px #17203308;
+}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.grid-three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.field{display:flex;flex-direction:column;gap:7px}
+label{font-size:13px;font-weight:600;color:#344054}
+input,select,textarea{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid #d0d5dd;
+  border-radius:8px;
+  background:white;
+  color:#172033;
+}
+input:focus,select:focus,textarea:focus{
+  outline:2px solid #b8b3ff;
+  outline-offset:1px;
+}
+textarea{min-height:100px;resize:vertical}
+.logo-preview{max-width:150px;max-height:80px;object-fit:contain}
+.table-wrapper{overflow-x:auto}
+.items-table{width:100%;border-collapse:collapse;min-width:650px}
+.items-table th{
+  padding:10px 6px;
+  text-align:left;
+  font-size:12px;
+  color:#667085;
+  border-bottom:1px solid #eaecf0;
+}
+.items-table td{padding:10px 6px}
+.items-table th:first-child{width:45%}
+.items-table input{min-width:85px}
+.line-total{white-space:nowrap;font-size:14px}
+button,.button{
+  display:inline-block;
+  border:1px solid #d0d5dd;
+  border-radius:8px;
+  padding:11px 16px;
+  background:white;
+  color:#344054;
+  cursor:pointer;
+  text-decoration:none;
+  font-weight:600;
+}
+.primary{background:#6c63ff;border-color:#6c63ff;color:white}
+.primary:hover{background:#554bd8}
+.remove{background:#fee4e2;color:#b42318;border:0;padding:8px 12px}
+.add{margin-top:14px;color:#554bd8;border:1px dashed #6c63ff}
+.actions{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap}
+.totals{
+  width:350px;
+  max-width:100%;
+  margin:22px 0 0 auto;
+  padding:18px;
+  background:#f9fafb;
+  border-radius:10px;
+}
+.total-line{display:flex;justify-content:space-between;gap:20px;padding:8px 0}
+.grand{border-top:1px solid #d0d5dd;font-size:20px;font-weight:bold;margin-top:8px;padding-top:14px}
+[hidden]{display:none!important}
+#previewOverlay{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  overflow:auto;
+  background:#e9edf4;
+  padding:24px;
+}
+.preview-toolbar{
+  max-width:794px;
+  margin:0 auto 16px;
+  display:flex;
+  justify-content:flex-end;
+  gap:12px;
+}
+#quoteDocument{
+  width:794px;
+  max-width:100%;
+  margin:auto;
+  padding:50px;
+  background:white;
+  box-shadow:0 4px 24px #17203322;
+  font-size:13px;
+}
+.document-header{
+  display:flex;
+  justify-content:space-between;
+  gap:24px;
+  border-bottom:3px solid #6c63ff;
+  padding-bottom:24px;
+  margin-bottom:30px;
+}
+.document-company{max-width:55%;overflow-wrap:anywhere}
+.document-company h2{font-size:24px;margin:10px 0}
+.document-company p,.document-customer p{
+  line-height:1.6;
+  white-space:pre-line;
+  overflow-wrap:anywhere;
+  margin:6px 0;
+}
+.document-logo{max-width:150px;max-height:80px;object-fit:contain}
+.quote-title{text-align:right;max-width:43%;overflow-wrap:anywhere}
+.quote-title h1{font-size:34px;color:#6c63ff;letter-spacing:2px}
+.quote-title p{margin:9px 0;color:#667085;font-size:12px}
+.document-customer{margin-bottom:25px}
+.document-customer small{color:#667085;text-transform:uppercase;font-weight:bold}
+.document-customer h3{font-size:18px;margin:8px 0}
+.document-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.document-table th,.document-table td{
+  padding:12px 8px;
+  text-align:right;
+  vertical-align:top;
+  border-bottom:1px solid #eaecf0;
+  overflow-wrap:anywhere;
+}
+.document-table th{background:#f2f4f7;font-size:12px}
+.document-table th:first-child,.document-table td:first-child{text-align:left;width:46%}
+.doc-totals{width:310px;max-width:100%;margin:22px 0 0 auto}
+.document-notes{margin-top:30px;border-top:1px solid #eaecf0;padding-top:18px}
+.document-notes h4{margin:16px 0 8px}
+.document-notes p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6}
+.thank-you{text-align:center;color:#667085;margin-top:35px;font-size:12px}
+
+@media(max-width:900px){
+  .sidebar{display:none}
+  main{margin-left:0;padding:20px}
+  .grid,.grid-three{grid-template-columns:1fr}
+  .topbar{flex-wrap:wrap}
+}
+@media(max-width:650px){
+  #previewOverlay{padding:12px}
+  #quoteDocument{padding:22px}
+  .document-header{gap:12px}
+  .quote-title h1{font-size:23px}
+  .document-table th,.document-table td{padding:8px 4px;font-size:11px}
+  .preview-toolbar{flex-wrap:wrap}
+}
+@page{size:A4;margin:15mm}
+@media print{
+  html,body{margin:0!important;padding:0!important;background:white!important}
+  .sidebar,main,.preview-toolbar{display:none!important}
+  #previewOverlay,#previewOverlay[hidden]{
+    display:block!important;
+    position:static!important;
+    padding:0!important;
+    overflow:visible!important;
+    background:white!important;
+  }
+  #quoteDocument{
+    width:auto!important;
+    max-width:none!important;
+    margin:0!important;
+    padding:0!important;
+    box-shadow:none!important;
+  }
+  .document-header,.document-customer,.doc-totals,.document-table tr{
+    break-inside:avoid;
+  }
+  .document-table thead{display:table-header-group}
+  .document-table th,.document-table td{padding:12px 8px;font-size:13px}
+  .quote-title h1{font-size:34px}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
 </head>
 
 <body>
+<aside class="sidebar">
+  <div class="brand">Ojira<span>Soft</span></div>
+  <p class="tagline">Business Automation Platform</p>
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="quote.html" class="active">Quotes</a>
+    <a href="index.html">Website</a>
+  </nav>
+</aside>
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-
-    <div class="logo">
-      Ojira<span>Soft</span>
+<main id="mainEditor">
+  <div class="topbar">
+    <div>
+      <h1>Create a Quote</h1>
+      <div class="muted">Prepare a quotation, preview it and save it as PDF.</div>
     </div>
+    <a class="button" href="dashboard.html">← Dashboard</a>
+  </div>
 
-    <div class="tagline">
-      Business Automation Platform
-    </div>
-
-    <nav class="nav">
-      <a href="dashboard.html">Dashboard</a>
-      <a class="active" href="quote.html">Quotes</a>
-      <a href="#">Invoices</a>
-      <a href="#">Customers</a>
-      <a href="#">Automations</a>
-      <a href="#">Messages</a>
-      <a href="#">AI Assistant</a>
-      <a href="#">Analytics</a>
-      <a href="#">Settings</a>
-    </nav>
-
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <div class="topbar">
-
-      <div>
-        <h1>Create a Quote</h1>
-        <p>Create a professional quotation for your customer.</p>
+  <section class="card">
+    <h2>Your Business</h2>
+    <div class="grid">
+      <div class="field">
+        <label for="businessName">Business / Company Name *</label>
+        <input id="businessName" value="OjiraSoft" required>
       </div>
-
-      <a href="dashboard.html" class="back-btn">
-        ← Dashboard
-      </a>
-
-    </div>
-
-    <!-- BUSINESS -->
-    <div class="card">
-
-      <h2>Your Business</h2>
-
-      <p class="section-description">
-        These details will appear on your customer's quotation.
-      </p>
-
-      <div class="grid">
-
-        <div class="field">
-          <label>Business / Company Name *</label>
-          <input
-            id="businessName"
-            placeholder="Example: OjiraSoft Ltd"
-          >
-        </div>
-
-        <div class="field">
-          <label>Business Email</label>
-          <input
-            id="businessEmail"
-            type="email"
-            placeholder="hello@company.com"
-          >
-        </div>
-
-        <div class="field">
-          <label>Phone</label>
-          <input
-            id="businessPhone"
-            placeholder="+49 123 456789"
-          >
-        </div>
-
-        <div class="field">
-          <label>Website</label>
-          <input
-            id="businessWebsite"
-            placeholder="www.company.com"
-          >
-        </div>
-
-        <div class="field">
-          <label>Business Address</label>
-          <input
-            id="businessAddress"
-            placeholder="Street, City, Country"
-          >
-        </div>
-
-        <div class="field">
-
-          <label>Business Logo</label>
-
-          <input
-            id="logoInput"
-            type="file"
-            accept="image/*"
-            onchange="loadLogo(event)"
-          >
-
-          <img
-            id="logoPreview"
-            class="logo-preview"
-            alt="Business logo"
-          >
-
-        </div>
-
+      <div class="field">
+        <label for="businessEmail">Business Email</label>
+        <input id="businessEmail" type="email" value="info@ojirasoft.cloud">
       </div>
-
-    </div>
-
-    <!-- CUSTOMER -->
-    <div class="card">
-
-      <h2>Customer</h2>
-
-      <div class="grid">
-
-        <div class="field">
-          <label>Customer / Company Name *</label>
-          <input
-            id="customerName"
-            placeholder="Customer name"
-          >
-        </div>
-
-        <div class="field">
-          <label>Customer Email</label>
-          <input
-            id="customerEmail"
-            type="email"
-            placeholder="customer@email.com"
-          >
-        </div>
-
-        <div class="field">
-          <label>Customer Phone</label>
-          <input
-            id="customerPhone"
-            placeholder="+49 123 456789"
-          >
-        </div>
-
-        <div class="field">
-          <label>Customer Address</label>
-          <input
-            id="customerAddress"
-            placeholder="Street, City, Country"
-          >
-        </div>
-
+      <div class="field">
+        <label for="businessPhone">Phone</label>
+        <input id="businessPhone" value="+49 176 24853542">
       </div>
-
-    </div>
-
-    <!-- QUOTE INFORMATION -->
-    <div class="card">
-
-      <h2>Quote Information</h2>
-
-      <div class="grid-3">
-
-        <div class="field">
-          <label>Quote Number</label>
-          <input id="quoteNumber">
-        </div>
-
-        <div class="field">
-          <label>Quote Date</label>
-          <input
-            id="quoteDate"
-            type="date"
-          >
-        </div>
-
-        <div class="field">
-          <label>Valid Until</label>
-          <input
-            id="validUntil"
-            type="date"
-          >
-        </div>
-
-        <div class="field">
-
-          <label>Currency</label>
-
-          <select
-            id="currency"
-            onchange="calculateTotals()"
-          >
-            <option value="€">EUR (€)</option>
-            <option value="$">USD ($)</option>
-            <option value="£">GBP (£)</option>
-            <option value="₦">NGN (₦)</option>
-            <option value="CHF ">CHF</option>
-            <option value="C$">CAD (C$)</option>
-            <option value="A$">AUD (A$)</option>
-          </select>
-
-        </div>
-
-        <div class="field">
-
-          <label>Tax / VAT %</label>
-
-          <input
-            id="taxRate"
-            type="number"
-            min="0"
-            step="0.01"
-            value="0"
-            oninput="calculateTotals()"
-          >
-
-        </div>
-
-        <div class="field">
-
-          <label>Discount %</label>
-
-          <input
-            id="discountRate"
-            type="number"
-            min="0"
-            max="100"
-            step="0.01"
-            value="0"
-            oninput="calculateTotals()"
-          >
-
-        </div>
-
+      <div class="field">
+        <label for="businessWebsite">Website</label>
+        <input id="businessWebsite" value="https://ojirasoft.cloud">
       </div>
-
-    </div>
-
-    <!-- PRODUCTS / SERVICES -->
-    <div class="card">
-
-      <h2>Products / Services</h2>
-
-      <p class="section-description">
-        Add the products, services or work included in this quotation.
-      </p>
-
-      <div class="items-wrapper">
-
-        <table class="items-table">
-
-          <thead>
-            <tr>
-              <th>Description</th>
-              <th width="100">Quantity</th>
-              <th width="150">Unit Price</th>
-              <th width="150">Amount</th>
-              <th width="50"></th>
-            </tr>
-          </thead>
-
-          <tbody id="itemsBody">
-
-            <tr class="item-row">
-
-              <td>
-                <input
-                  class="description"
-                  placeholder="Product or service"
-                >
-              </td>
-
-              <td>
-                <input
-                  class="quantity"
-                  type="number"
-                  min="0"
-                  step="1"
-                  value="1"
-                  oninput="calculateTotals()"
-                >
-              </td>
-
-              <td>
-                <input
-                  class="price"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value="0"
-                  oninput="calculateTotals()"
-                >
-              </td>
-
-              <td class="line-total">
-                €0.00
-              </td>
-
-              <td>
-                <button
-                  class="remove-btn"
-                  type="button"
-                  onclick="removeItem(this)"
-                >
-                  ×
-                </button>
-              </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
-
+      <div class="field">
+        <label for="businessAddress">Business Address</label>
+        <textarea id="businessAddress">I. Fließstraße 6A
+45356 Essen, Germany</textarea>
       </div>
-
-      <button
-        class="add-item"
-        type="button"
-        onclick="addItem()"
-      >
-        + Add Product / Service
-      </button>
-
-      <div class="totals-container">
-
-        <div class="totals">
-
-          <div class="total-line">
-            <span>Subtotal</span>
-            <strong id="subtotalDisplay">€0.00</strong>
-          </div>
-
-          <div class="total-line">
-            <span>Discount</span>
-            <strong id="discountDisplay">- €0.00</strong>
-          </div>
-
-          <div class="total-line">
-            <span>Tax / VAT</span>
-            <strong id="taxDisplay">€0.00</strong>
-          </div>
-
-          <div class="total-line grand-total">
-            <span>Total</span>
-            <span id="totalDisplay">€0.00</span>
-          </div>
-
-        </div>
-
+      <div class="field">
+        <label for="logoInput">Logo — PNG, JPEG or WebP, maximum 2 MB</label>
+        <input id="logoInput" type="file"
+          accept="image/png,image/jpeg,image/webp" onchange="loadLogo(event)">
+        <img id="logoPreview" class="logo-preview" alt="Business logo" hidden>
+        <button type="button" onclick="removeLogo()">Remove logo</button>
       </div>
-
     </div>
+  </section>
 
-    <!-- NOTES -->
-    <div class="card">
-
-      <h2>Notes & Terms</h2>
-
-      <div class="grid">
-
-        <div class="field">
-
-          <label>Customer Note</label>
-
-          <textarea
-            id="notes"
-            placeholder="Thank you for considering our services."
-          ></textarea>
-
-        </div>
-
-        <div class="field">
-
-          <label>Terms & Conditions</label>
-
-          <textarea
-            id="terms"
-            placeholder="Example: This quotation is valid for 30 days."
-          ></textarea>
-
-        </div>
-
+  <section class="card">
+    <h2>Customer</h2>
+    <div class="grid">
+      <div class="field">
+        <label for="customerName">Customer / Company Name *</label>
+        <input id="customerName" required>
       </div>
-
-    </div>
-
-    <!-- ACTION BUTTONS -->
-    <div class="actions">
-
-      <button
-        class="btn btn-preview"
-        type="button"
-        onclick="previewQuote()"
-      >
-        Preview Quote
-      </button>
-
-      <button
-        class="btn btn-primary"
-        type="button"
-        onclick="generatePDF()"
-      >
-        Generate PDF Quote
-      </button>
-
-    </div>
-
-  </main>
-
-  <!-- =========================
-       PREVIEW + PRINT AREA
-  ========================== -->
-
-  <div
-    id="previewOverlay"
-    class="preview-overlay"
-  >
-
-    <div class="preview-toolbar">
-
-      <button
-        class="close-preview"
-        type="button"
-        onclick="closePreview()"
-      >
-        Close Preview
-      </button>
-
-      <button
-        class="print-preview"
-        type="button"
-        onclick="printQuote()"
-      >
-        Save as PDF
-      </button>
-
-    </div>
-
-    <div id="quoteDocument">
-
-      <!-- HEADER -->
-      <div class="document-header">
-
-        <div class="document-company">
-
-          <img
-            id="docLogo"
-            class="document-logo"
-            alt="Business logo"
-          >
-
-          <h2 id="docBusinessName"></h2>
-
-          <p id="docBusinessDetails"></p>
-
-        </div>
-
-        <div class="quote-title">
-
-          <h1>QUOTE</h1>
-
-          <p>
-            Quote #:
-            <strong id="docQuoteNumber"></strong>
-          </p>
-
-          <p>
-            Date:
-            <span id="docQuoteDate"></span>
-          </p>
-
-          <p>
-            Valid Until:
-            <span id="docValidUntil"></span>
-          </p>
-
-        </div>
-
+      <div class="field">
+        <label for="customerEmail">Customer Email</label>
+        <input id="customerEmail" type="email">
       </div>
-
-      <!-- CUSTOMER -->
-      <div class="document-customer">
-
-        <small>Prepared For</small>
-
-        <h3 id="docCustomerName"></h3>
-
-        <p id="docCustomerDetails"></p>
-
+      <div class="field">
+        <label for="customerPhone">Customer Phone</label>
+        <input id="customerPhone">
       </div>
+      <div class="field">
+        <label for="customerAddress">Customer Address</label>
+        <textarea id="customerAddress"></textarea>
+      </div>
+    </div>
+  </section>
 
-      <!-- ITEMS -->
-      <table class="document-table">
+  <section class="card">
+    <h2>Quote Information</h2>
+    <div class="grid grid-three">
+      <div class="field">
+        <label for="quoteNumber">Quote Number *</label>
+        <input id="quoteNumber" required>
+      </div>
+      <div class="field">
+        <label for="quoteDate">Quote Date *</label>
+        <input id="quoteDate" type="date" required>
+      </div>
+      <div class="field">
+        <label for="validUntil">Valid Until *</label>
+        <input id="validUntil" type="date" required>
+      </div>
+      <div class="field">
+        <label for="currency">Currency</label>
+        <select id="currency" onchange="calculateTotals()">
+          <option value="EUR">EUR (€)</option>
+          <option value="USD">USD ($)</option>
+          <option value="GBP">GBP (£)</option>
+          <option value="NGN">NGN (₦)</option>
+          <option value="CHF">CHF</option>
+          <option value="CAD">CAD</option>
+          <option value="AUD">AUD</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="taxRate">Tax / VAT %</label>
+        <input id="taxRate" type="number" min="0" max="100"
+          step="0.01" value="0" required oninput="calculateTotals()">
+      </div>
+      <div class="field">
+        <label for="discountRate">Discount %</label>
+        <input id="discountRate" type="number" min="0" max="100"
+          step="0.01" value="0" required oninput="calculateTotals()">
+      </div>
+    </div>
+    <p class="muted">
+      Enter unit prices before VAT. Discount is applied before VAT.
+      Set the VAT rate appropriate for your business.
+    </p>
+  </section>
 
+  <section class="card">
+    <h2>Products / Services</h2>
+    <div class="table-wrapper">
+      <table class="items-table">
         <thead>
           <tr>
             <th>Description</th>
-            <th>Qty</th>
+            <th>Quantity</th>
             <th>Unit Price</th>
             <th>Amount</th>
+            <th>Remove</th>
           </tr>
         </thead>
-
-        <tbody id="docItems"></tbody>
-
+        <tbody id="itemsBody"></tbody>
       </table>
-
-      <!-- TOTALS -->
-      <div class="doc-totals">
-
-        <div class="doc-total-row">
-          <span>Subtotal</span>
-          <span id="docSubtotal"></span>
-        </div>
-
-        <div
-          class="doc-total-row"
-          id="docDiscountRow"
-        >
-          <span>Discount</span>
-          <span id="docDiscount"></span>
-        </div>
-
-        <div
-          class="doc-total-row"
-          id="docTaxRow"
-        >
-          <span>Tax / VAT</span>
-          <span id="docTax"></span>
-        </div>
-
-        <div class="doc-total-row doc-grand-total">
-          <span>Total</span>
-          <span id="docTotal"></span>
-        </div>
-
-      </div>
-
-      <!-- NOTES -->
-      <div class="document-notes">
-
-        <div id="notesSection">
-          <h4>Notes</h4>
-          <p id="docNotes"></p>
-        </div>
-
-        <div id="termsSection">
-          <h4 class="terms-heading">Terms & Conditions</h4>
-          <p id="docTerms"></p>
-        </div>
-
-      </div>
-
-      <div class="thank-you">
-        Thank you for your business.
-      </div>
-
-      <div class="ojira-footer">
-        Quote created with OjiraSoft
-      </div>
-
     </div>
 
+    <button class="add" type="button" onclick="addItem()">+ Add Product / Service</button>
+
+    <div class="totals">
+      <div class="total-line"><span>Subtotal</span><strong id="subtotalDisplay"></strong></div>
+      <div class="total-line"><span>Discount</span><strong id="discountDisplay"></strong></div>
+      <div class="total-line"><span>Tax / VAT</span><strong id="taxDisplay"></strong></div>
+      <div class="total-line grand"><span>Total</span><span id="totalDisplay"></span></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Notes & Terms</h2>
+    <div class="grid">
+      <div class="field">
+        <label for="notes">Customer Note</label>
+        <textarea id="notes" placeholder="Thank you for considering our services."></textarea>
+      </div>
+      <div class="field">
+        <label for="terms">Terms & Conditions</label>
+        <textarea id="terms" placeholder="Enter your payment terms, scope and conditions."></textarea>
+      </div>
+    </div>
+  </section>
+
+  <div class="actions">
+    <button type="button" onclick="previewQuote()">Preview Quote</button>
+    <button class="primary" type="button" onclick="generatePDF()">Print / Save as PDF</button>
+  </div>
+  <p class="muted">
+    In the print window, choose Save as PDF, A4 paper and turn off headers and footers.
+    Customer details remain on this page only; download the PDF before closing it.
+  </p>
+</main>
+
+<section id="previewOverlay" hidden role="dialog"
+  aria-modal="true" aria-label="Quotation preview">
+  <div class="preview-toolbar">
+    <button type="button" onclick="closePreview()">Back to editor</button>
+    <button class="primary" type="button" onclick="generatePDF()">Print / Save as PDF</button>
   </div>
 
-  <script>
-
-    let logoData = "";
-
-    /* =========================
-       DEFAULT VALUES
-    ========================== */
-
-    function setupDefaults() {
-
-      const today = new Date();
-
-      const todayString =
-        formatDateForInput(today);
-
-      document.getElementById("quoteDate").value =
-        todayString;
-
-      const validDate =
-        new Date(today);
-
-      validDate.setDate(
-        validDate.getDate() + 30
-      );
-
-      document.getElementById("validUntil").value =
-        formatDateForInput(validDate);
-
-      const quoteNumber =
-        "QT-" +
-        today.getFullYear() +
-        "-" +
-        String(Date.now()).slice(-6);
-
-      document.getElementById("quoteNumber").value =
-        quoteNumber;
-    }
-
-    function formatDateForInput(date) {
-
-      const year =
-        date.getFullYear();
-
-      const month =
-        String(date.getMonth() + 1).padStart(2, "0");
-
-      const day =
-        String(date.getDate()).padStart(2, "0");
-
-      return year + "-" + month + "-" + day;
-    }
-
-    function formatDateForDocument(value) {
-
-      if (!value) {
-        return "";
-      }
-
-      const parts =
-        value.split("-");
-
-      if (parts.length !== 3) {
-        return value;
-      }
-
-      return (
-        parts[2] +
-        "." +
-        parts[1] +
-        "." +
-        parts[0]
-      );
-    }
-
-    /* =========================
-       LOGO
-    ========================== */
-
-    function loadLogo(event) {
-
-      const file =
-        event.target.files[0];
-
-      if (!file) {
-        return;
-      }
-
-      if (!file.type.startsWith("image/")) {
-
-        alert(
-          "Please select an image file for your logo."
-        );
-
-        event.target.value = "";
-
-        return;
-      }
-
-      const reader =
-        new FileReader();
-
-      reader.onload =
-        function(e) {
-
-          logoData =
-            e.target.result;
-
-          const preview =
-            document.getElementById("logoPreview");
-
-          preview.src =
-            logoData;
-
-          preview.style.display =
-            "block";
-        };
-
-      reader.readAsDataURL(file);
-    }
-
-    /* =========================
-       ADD ITEM
-    ========================== */
-
-    function addItem() {
-
-      const tbody =
-        document.getElementById("itemsBody");
-
-      const row =
-        document.createElement("tr");
-
-      row.className =
-        "item-row";
-
-      row.innerHTML = `
-        <td>
-          <input
-            class="description"
-            placeholder="Product or service"
-          >
-        </td>
-
-        <td>
-          <input
-            class="quantity"
-            type="number"
-            min="0"
-            step="1"
-            value="1"
-            oninput="calculateTotals()"
-          >
-        </td>
-
-        <td>
-          <input
-            class="price"
-            type="number"
-            min="0"
-            step="0.01"
-            value="0"
-            oninput="calculateTotals()"
-          >
-        </td>
-
-        <td class="line-total">
-          0.00
-        </td>
-
-        <td>
-          <button
-            class="remove-btn"
-            type="button"
-            onclick="removeItem(this)"
-          >
-            ×
-          </button>
-        </td>
-      `;
-
-      tbody.appendChild(row);
-
-      calculateTotals();
-    }
-
-    /* =========================
-       REMOVE ITEM
-    ========================== */
-
-    function removeItem(button) {
-
-      const rows =
-        document.querySelectorAll(".item-row");
-
-      if (rows.length === 1) {
-
-        alert(
-          "Your quote must contain at least one product or service."
-        );
-
-        return;
-      }
-
-      button.closest("tr").remove();
-
-      calculateTotals();
-    }
-
-    /* =========================
-       MONEY
-    ========================== */
-
-    function money(symbol, amount) {
-
-      return (
-        symbol +
-        Number(amount).toLocaleString(
-          "en-US",
-          {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-          }
-        )
-      );
-    }
-
-    /* =========================
-       CALCULATE TOTALS
-    ========================== */
-
-    function calculateTotals() {
-
-      const symbol =
-        document.getElementById("currency").value;
-
-      const rows =
-        document.querySelectorAll(".item-row");
-
-      let subtotal = 0;
-
-      rows.forEach(
-        function(row) {
-
-          const quantity =
-            parseFloat(
-              row.querySelector(".quantity").value
-            ) || 0;
-
-          const price =
-            parseFloat(
-              row.querySelector(".price").value
-            ) || 0;
-
-          const lineTotal =
-            quantity * price;
-
-          subtotal +=
-            lineTotal;
-
-          row.querySelector(".line-total").textContent =
-            money(symbol, lineTotal);
+  <article id="quoteDocument">
+    <header class="document-header">
+      <div class="document-company">
+        <img id="docLogo" class="document-logo" alt="Business logo" hidden>
+        <h2 id="docBusinessName"></h2>
+        <p id="docBusinessDetails"></p>
+      </div>
+      <div class="quote-title">
+        <h1>QUOTE</h1>
+        <p>Quote #: <strong id="docQuoteNumber"></strong></p>
+        <p>Date: <span id="docQuoteDate"></span></p>
+        <p>Valid Until: <span id="docValidUntil"></span></p>
+      </div>
+    </header>
+
+    <section class="document-customer">
+      <small>Prepared For</small>
+      <h3 id="docCustomerName"></h3>
+      <p id="docCustomerDetails"></p>
+    </section>
+
+    <table class="document-table">
+      <thead>
+        <tr><th>Description</th><th>Qty</th><th>Unit Price</th><th>Amount</th></tr>
+      </thead>
+      <tbody id="docItems"></tbody>
+    </table>
+
+    <div class="doc-totals">
+      <div class="total-line"><span>Subtotal</span><span id="docSubtotal"></span></div>
+      <div class="total-line"><span id="docDiscountLabel">Discount</span><span id="docDiscount"></span></div>
+      <div class="total-line"><span id="docTaxLabel">Tax / VAT</span><span id="docTax"></span></div>
+      <div class="total-line grand"><span>Total</span><span id="docTotal"></span></div>
+    </div>
+
+    <section class="document-notes">
+      <div id="docNotesSection">
+        <h4>Notes</h4>
+        <p id="docNotes"></p>
+      </div>
+      <div id="docTermsSection">
+        <h4>Terms & Conditions</h4>
+        <p id="docTerms"></p>
+      </div>
+    </section>
+
+    <footer class="thank-you">Thank you for considering our quotation.</footer>
+  </article>
+</section>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+const value = id => $(id).value.trim();
+
+let logoData = "";
+let logoPending = Promise.resolve();
+let logoVersion = 0;
+let previousFocus = null;
+let printing = false;
+
+function localDate(date) {
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0")
+  ].join("-");
+}
+
+function setupDefaults() {
+  const today = new Date();
+  const until = new Date(today);
+  until.setDate(until.getDate() + 30);
+
+  $("quoteDate").value = localDate(today);
+  $("validUntil").value = localDate(until);
+
+  const suffix = globalThis.crypto?.randomUUID
+    ? crypto.randomUUID().slice(0, 8).toUpperCase()
+    : String(Date.now());
+
+  $("quoteNumber").value = "QT-" + today.getFullYear() + "-" + suffix;
+}
+
+function money(cents) {
+  return new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency: $("currency").value,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  }).format(cents / 100);
+}
+
+function toCents(amount) {
+  return Math.round((amount + Number.EPSILON) * 100);
+}
+
+function addItem() {
+  const row = document.createElement("tr");
+  row.className = "item-row";
+
+  row.innerHTML = `
+    <td>
+      <input class="description" aria-label="Item description"
+        placeholder="Product or service" required>
+    </td>
+    <td>
+      <input class="quantity" aria-label="Quantity"
+        type="number" min="0.01" max="1000000"
+        step="0.01" value="1" required>
+    </td>
+    <td>
+      <input class="price" aria-label="Unit price"
+        type="number" min="0" max="100000000"
+        step="0.01" value="0" required>
+    </td>
+    <td class="line-total"></td>
+    <td>
+      <button class="remove" type="button"
+        aria-label="Remove item" onclick="removeItem(this)">×</button>
+    </td>
+  `;
+
+  row.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", calculateTotals);
+  });
+
+  $("itemsBody").appendChild(row);
+  calculateTotals();
+}
+
+function removeItem(button) {
+  if ($("itemsBody").children.length === 1) {
+    alert("Your quote must contain at least one item.");
+    return;
+  }
+
+  button.closest("tr").remove();
+  calculateTotals();
+}
+
+function calculateTotals() {
+  let subtotal = 0;
+
+  document.querySelectorAll(".item-row").forEach(row => {
+    const quantity = Number(row.querySelector(".quantity").value) || 0;
+    const price = Number(row.querySelector(".price").value) || 0;
+    const amount = toCents(quantity * price);
+
+    subtotal += amount;
+    row.querySelector(".line-total").textContent = money(amount);
+  });
+
+  const discountRate = Number(value("discountRate")) || 0;
+  const taxRate = Number(value("taxRate")) || 0;
+
+  const discount = Math.round(subtotal * discountRate / 100);
+  const net = subtotal - discount;
+  const tax = Math.round(net * taxRate / 100);
+  const total = net + tax;
+
+  $("subtotalDisplay").textContent = money(subtotal);
+  $("discountDisplay").textContent = "- " + money(discount);
+  $("taxDisplay").textContent = money(tax);
+  $("totalDisplay").textContent = money(total);
+
+  return { subtotal, discount, tax, total };
+}
+
+function removeLogo() {
+  logoVersion++;
+  logoData = "";
+  $("logoInput").value = "";
+  $("logoPreview").hidden = true;
+  $("logoPreview").removeAttribute("src");
+  $("docLogo").hidden = true;
+  $("docLogo").removeAttribute("src");
+}
+
+function loadLogo(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (
+    !["image/png", "image/jpeg", "image/webp"].includes(file.type) ||
+    file.size > 2 * 1024 * 1024
+  ) {
+    alert("Choose a PNG, JPEG or WebP logo up to 2 MB.");
+    event.target.value = "";
+    return;
+  }
+
+  const version = ++logoVersion;
+
+  logoPending = new Promise(resolve => {
+    const reader = new FileReader();
+
+    reader.onload = async () => {
+      try {
+        const image = new Image();
+        image.src = reader.result;
+        await image.decode();
+
+        if (version === logoVersion) {
+          logoData = reader.result;
+          $("logoPreview").src = logoData;
+          $("logoPreview").hidden = false;
         }
-      );
-
-      let discountRate =
-        parseFloat(
-          document.getElementById("discountRate").value
-        ) || 0;
-
-      let taxRate =
-        parseFloat(
-          document.getElementById("taxRate").value
-        ) || 0;
-
-      if (discountRate < 0) {
-        discountRate = 0;
+      } catch {
+        alert("This image could not be opened. Please choose another logo.");
       }
 
-      if (discountRate > 100) {
-        discountRate = 100;
-      }
+      resolve();
+    };
 
-      if (taxRate < 0) {
-        taxRate = 0;
-      }
+    reader.onerror = () => {
+      alert("The logo could not be read.");
+      resolve();
+    };
 
-      const discount =
-        subtotal *
-        (discountRate / 100);
+    reader.readAsDataURL(file);
+  });
+}
 
-      const taxableAmount =
-        subtotal -
-        discount;
-
-      const tax =
-        taxableAmount *
-        (taxRate / 100);
-
-      const total =
-        taxableAmount +
-        tax;
-
-      document.getElementById("subtotalDisplay").textContent =
-        money(symbol, subtotal);
-
-      document.getElementById("discountDisplay").textContent =
-        "- " +
-        money(symbol, discount);
-
-      document.getElementById("taxDisplay").textContent =
-        money(symbol, tax);
-
-      document.getElementById("totalDisplay").textContent =
-        money(symbol, total);
-
-      return {
-        subtotal,
-        discount,
-        tax,
-        total,
-        symbol,
-        discountRate,
-        taxRate
-      };
+function validateQuote() {
+  for (const input of document.querySelectorAll(
+    "main input:not([type=file]), main select, main textarea"
+  )) {
+    if (!input.checkValidity()) {
+      if (!$("previewOverlay").hidden) closePreview();
+      input.reportValidity();
+      return false;
     }
-
-    /* =========================
-       BUILD QUOTE
-    ========================== */
-
-    function buildQuoteDocument() {
-
-      const businessName =
-        document
-          .getElementById("businessName")
-          .value
-          .trim();
-
-      const customerName =
-        document
-          .getElementById("customerName")
-          .value
-          .trim();
-
-      if (!businessName) {
-
-        alert(
-          "Please enter your business name."
-        );
-
-        document
-          .getElementById("businessName")
-          .focus();
-
-        return false;
-      }
-
-      if (!customerName) {
-
-        alert(
-          "Please enter the customer name."
-        );
-
-        document
-          .getElementById("customerName")
-          .focus();
-
-        return false;
-      }
-
-      const totals =
-        calculateTotals();
-
-      /* BUSINESS */
-
-      document
-        .getElementById("docBusinessName")
-        .textContent =
-        businessName;
-
-      const businessDetails = [
-        document
-          .getElementById("businessAddress")
-          .value
-          .trim(),
-
-        document
-          .getElementById("businessEmail")
-          .value
-          .trim(),
-
-        document
-          .getElementById("businessPhone")
-          .value
-          .trim(),
-
-        document
-          .getElementById("businessWebsite")
-          .value
-          .trim()
-      ].filter(Boolean);
-
-      setMultilineText(
-        "docBusinessDetails",
-        businessDetails
-      );
-
-      /* LOGO */
-
-      const docLogo =
-        document.getElementById("docLogo");
-
-      if (logoData) {
-
-        docLogo.src =
-          logoData;
-
-        docLogo.style.display =
-          "block";
-
-      } else {
-
-        docLogo.removeAttribute("src");
-
-        docLogo.style.display =
-          "none";
-      }
-
-      /* QUOTE DETAILS */
-
-      document
-        .getElementById("docQuoteNumber")
-        .textContent =
-        document
-          .getElementById("quoteNumber")
-          .value
-          .trim();
-
-      document
-        .getElementById("docQuoteDate")
-        .textContent =
-        formatDateForDocument(
-          document
-            .getElementById("quoteDate")
-            .value
-        );
-
-      document
-        .getElementById("docValidUntil")
-        .textContent =
-        formatDateForDocument(
-          document
-            .getElementById("validUntil")
-            .value
-        );
-
-      /* CUSTOMER */
-
-      document
-        .getElementById("docCustomerName")
-        .textContent =
-        customerName;
-
-      const customerDetails = [
-        document
-          .getElementById("customerAddress")
-          .value
-          .trim(),
-
-        document
-          .getElementById("customerEmail")
-          .value
-          .trim(),
-
-        document
-          .getElementById("customerPhone")
-          .value
-          .trim()
-      ].filter(Boolean);
-
-      setMultilineText(
-        "docCustomerDetails",
-        customerDetails
-      );
-
-      /* ITEMS */
-
-      const docItems =
-        document.getElementById("docItems");
-
-      docItems.innerHTML =
-        "";
-
-      document
-        .querySelectorAll(".item-row")
-        .forEach(
-          function(row) {
-
-            const description =
-              row
-                .querySelector(".description")
-                .value
-                .trim();
-
-            const quantity =
-              parseFloat(
-                row.querySelector(".quantity").value
-              ) || 0;
-
-            const price =
-              parseFloat(
-                row.querySelector(".price").value
-              ) || 0;
-
-            if (
-              !description &&
-              price === 0
-            ) {
-              return;
-            }
-
-            const amount =
-              quantity * price;
-
-            const tr =
-              document.createElement("tr");
-
-            const descriptionCell =
-              document.createElement("td");
-
-            const quantityCell =
-              document.createElement("td");
-
-            const priceCell =
-              document.createElement("td");
-
-            const amountCell =
-              document.createElement("td");
-
-            descriptionCell.textContent =
-              description || "Item";
-
-            quantityCell.textContent =
-              quantity;
-
-            priceCell.textContent =
-              money(
-                totals.symbol,
-                price
-              );
-
-            amountCell.textContent =
-              money(
-                totals.symbol,
-                amount
-              );
-
-            tr.appendChild(
-              descriptionCell
-            );
-
-            tr.appendChild(
-              quantityCell
-            );
-
-            tr.appendChild(
-              priceCell
-            );
-
-            tr.appendChild(
-              amountCell
-            );
-
-            docItems.appendChild(
-              tr
-            );
-          }
-        );
-
-      if (
-        docItems.children.length === 0
-      ) {
-
-        alert(
-          "Please add at least one product or service."
-        );
-
-        return false;
-      }
-
-      /* TOTALS */
-
-      document
-        .getElementById("docSubtotal")
-        .textContent =
-        money(
-          totals.symbol,
-          totals.subtotal
-        );
-
-      document
-        .getElementById("docDiscount")
-        .textContent =
-        "- " +
-        money(
-          totals.symbol,
-          totals.discount
-        );
-
-      document
-        .getElementById("docTax")
-        .textContent =
-        money(
-          totals.symbol,
-          totals.tax
-        );
-
-      document
-        .getElementById("docTotal")
-        .textContent =
-        money(
-          totals.symbol,
-          totals.total
-        );
-
-      document
-        .getElementById("docDiscountRow")
-        .style.display =
-        totals.discount > 0
-          ? "flex"
-          : "none";
-
-      document
-        .getElementById("docTaxRow")
-        .style.display =
-        totals.tax > 0
-          ? "flex"
-          : "none";
-
-      /* NOTES */
-
-      const notes =
-        document
-          .getElementById("notes")
-          .value
-          .trim();
-
-      const terms =
-        document
-          .getElementById("terms")
-          .value
-          .trim();
-
-      document
-        .getElementById("docNotes")
-        .textContent =
-        notes;
-
-      document
-        .getElementById("docTerms")
-        .textContent =
-        terms;
-
-      document
-        .getElementById("notesSection")
-        .style.display =
-        notes
-          ? "block"
-          : "none";
-
-      document
-        .getElementById("termsSection")
-        .style.display =
-        terms
-          ? "block"
-          : "none";
-
-      document
-        .querySelector(".document-notes")
-        .style.display =
-        notes || terms
-          ? "block"
-          : "none";
-
-      return true;
+  }
+
+  for (const id of ["businessName", "customerName", "quoteNumber"]) {
+    if (!value(id)) {
+      if (!$("previewOverlay").hidden) closePreview();
+      alert("Please complete the business name, customer name and quote number.");
+      $(id).focus();
+      return false;
     }
+  }
 
-    /* =========================
-       MULTILINE SAFE TEXT
-    ========================== */
+  if (value("validUntil") < value("quoteDate")) {
+    alert("The valid-until date must be on or after the quote date.");
+    return false;
+  }
 
-    function setMultilineText(
-      elementId,
-      values
-    ) {
-
-      const element =
-        document.getElementById(
-          elementId
-        );
-
-      element.innerHTML =
-        "";
-
-      values.forEach(
-        function(value, index) {
-
-          if (index > 0) {
-
-            element.appendChild(
-              document.createElement("br")
-            );
-          }
-
-          element.appendChild(
-            document.createTextNode(value)
-          );
-        }
-      );
+  for (const row of document.querySelectorAll(".item-row")) {
+    if (!row.querySelector(".description").value.trim()) {
+      alert("Enter a description for every item.");
+      return false;
     }
+  }
 
-    /* =========================
-       PREVIEW
-    ========================== */
+  const totals = calculateTotals();
 
-    function previewQuote() {
+  if (!Number.isSafeInteger(totals.total)) {
+    alert("The quotation amount is too large. Please reduce the values.");
+    return false;
+  }
 
-      if (!buildQuoteDocument()) {
+  return true;
+}
+
+function formatDate(dateString) {
+  if (!dateString) return "";
+
+  const [year, month, day] = dateString.split("-");
+  return day + "." + month + "." + year;
+}
+
+function buildQuoteDocument() {
+  if (!validateQuote()) return false;
+
+  const totals = calculateTotals();
+
+  $("docBusinessName").textContent = value("businessName");
+  $("docBusinessDetails").textContent = [
+    value("businessAddress"),
+    value("businessEmail"),
+    value("businessPhone"),
+    value("businessWebsite")
+  ].filter(Boolean).join("\n");
+
+  $("docCustomerName").textContent = value("customerName");
+  $("docCustomerDetails").textContent = [
+    value("customerAddress"),
+    value("customerEmail"),
+    value("customerPhone")
+  ].filter(Boolean).join("\n");
+
+  $("docQuoteNumber").textContent = value("quoteNumber");
+  $("docQuoteDate").textContent = formatDate(value("quoteDate"));
+  $("docValidUntil").textContent = formatDate(value("validUntil"));
+
+  $("docLogo").hidden = !logoData;
+  if (logoData) $("docLogo").src = logoData;
+
+  $("docItems").replaceChildren();
+
+  document.querySelectorAll(".item-row").forEach(row => {
+    const description = row.querySelector(".description").value.trim();
+    const quantity = Number(row.querySelector(".quantity").value);
+    const price = Number(row.querySelector(".price").value);
+    const amount = toCents(quantity * price);
+    const tr = document.createElement("tr");
+
+    [
+      description,
+      quantity,
+      money(toCents(price)),
+      money(amount)
+    ].forEach(text => {
+      const td = document.createElement("td");
+      td.textContent = text;
+      tr.appendChild(td);
+    });
+
+    $("docItems").appendChild(tr);
+  });
+
+  $("docSubtotal").textContent = money(totals.subtotal);
+  $("docDiscount").textContent = "- " + money(totals.discount);
+  $("docTax").textContent = money(totals.tax);
+  $("docTotal").textContent = money(totals.total);
+
+  $("docDiscountLabel").textContent =
+    "Discount (" + value("discountRate") + "%)";
+
+  $("docTaxLabel").textContent =
+    "Tax / VAT (" + value("taxRate") + "%)";
+
+  $("docNotes").textContent = value("notes");
+  $("docTerms").textContent = value("terms");
+
+  $("docNotesSection").hidden = !value("notes");
+  $("docTermsSection").hidden = !value("terms");
+
+  return true;
+}
+
+function showPreview() {
+  if ($("previewOverlay").hidden) {
+    previousFocus = document.activeElement;
+  }
+
+  $("previewOverlay").hidden = false;
+  $("previewOverlay").scrollTop = 0;
+  $("mainEditor").inert = true;
+  document.querySelector(".sidebar").inert = true;
+  $("previewOverlay").querySelector("button").focus();
+}
+
+async function previewQuote() {
+  await logoPending;
+  if (!buildQuoteDocument()) return;
+  showPreview();
+}
+
+function closePreview() {
+  $("previewOverlay").hidden = true;
+  $("mainEditor").inert = false;
+  document.querySelector(".sidebar").inert = false;
+  previousFocus?.focus();
+}
+
+async function generatePDF() {
+  if (printing) return;
+  printing = true;
+
+  try {
+    await logoPending;
+    if (!buildQuoteDocument()) return;
+
+    showPreview();
+    await document.fonts.ready;
+
+    if (logoData) {
+      try {
+        await $("docLogo").decode();
+      } catch {
+        alert("The logo could not be rendered. Remove it or choose another image.");
         return;
       }
-
-      document
-        .getElementById("previewOverlay")
-        .classList
-        .add("show");
-
-      document.body.style.overflow =
-        "hidden";
-
-      window.scrollTo(
-        0,
-        0
-      );
     }
 
-    function closePreview() {
+    const safeNumber = value("quoteNumber").replace(/[^a-zA-Z0-9_-]/g, "-");
+    document.title = "OjiraSoft-" + safeNumber;
 
-      document
-        .getElementById("previewOverlay")
-        .classList
-        .remove("show");
+    await new Promise(resolve => {
+      requestAnimationFrame(() => requestAnimationFrame(resolve));
+    });
 
-      document.body.style.overflow =
-        "";
+    window.print();
+  } finally {
+    printing = false;
+  }
+}
+
+document.addEventListener("keydown", event => {
+  if ($("previewOverlay").hidden) return;
+
+  if (event.key === "Escape") {
+    closePreview();
+    return;
+  }
+
+  if (event.key === "Tab") {
+    const buttons = [...$("previewOverlay").querySelectorAll("button")];
+    const first = buttons[0];
+    const last = buttons[buttons.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
     }
+  }
+});
 
-    /* =========================
-       GENERATE PDF
-    ========================== */
-
-    function generatePDF() {
-
-      if (!buildQuoteDocument()) {
-        return;
-      }
-
-      document
-        .getElementById("previewOverlay")
-        .classList
-        .add("show");
-
-      document.body.style.overflow =
-        "hidden";
-
-      setTimeout(
-        function() {
-
-          window.print();
-
-        },
-        250
-      );
-    }
-
-    function printQuote() {
-
-      if (!buildQuoteDocument()) {
-        return;
-      }
-
-      window.print();
-    }
-
-    /* =========================
-       CLOSE PREVIEW WITH ESC
-    ========================== */
-
-    document.addEventListener(
-      "keydown",
-      function(event) {
-
-        if (
-          event.key === "Escape"
-        ) {
-
-          closePreview();
-        }
-      }
-    );
-
-    /* =========================
-       START
-    ========================== */
-
-    setupDefaults();
-    calculateTotals();
-
-  </script>
-
+setupDefaults();
+addItem();
+</script>
 </body>
 </html>
