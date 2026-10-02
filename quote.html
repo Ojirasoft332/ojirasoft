@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Quote Generator | OjiraSoft</title>
 
   <style>
@@ -19,7 +18,9 @@
       color: #172033;
     }
 
-    /* SIDEBAR */
+    /* =========================
+       SIDEBAR
+    ========================== */
 
     .sidebar {
       position: fixed;
@@ -30,6 +31,7 @@
       background: #101828;
       color: white;
       padding: 30px 20px;
+      z-index: 20;
     }
 
     .logo {
@@ -64,7 +66,9 @@
       color: white;
     }
 
-    /* MAIN */
+    /* =========================
+       MAIN PAGE
+    ========================== */
 
     .main {
       margin-left: 240px;
@@ -98,7 +102,9 @@
       font-size: 14px;
     }
 
-    /* CARDS */
+    /* =========================
+       CARDS
+    ========================== */
 
     .card {
       background: white;
@@ -120,7 +126,9 @@
       margin-bottom: 20px;
     }
 
-    /* FORMS */
+    /* =========================
+       FORMS
+    ========================== */
 
     .grid {
       display: grid;
@@ -178,7 +186,13 @@
       display: none;
     }
 
-    /* ITEMS */
+    /* =========================
+       ITEMS
+    ========================== */
+
+    .items-wrapper {
+      overflow-x: auto;
+    }
 
     .items-table {
       width: 100%;
@@ -228,7 +242,9 @@
       font-weight: 600;
     }
 
-    /* TOTALS */
+    /* =========================
+       TOTALS
+    ========================== */
 
     .totals-container {
       display: flex;
@@ -257,7 +273,9 @@
       font-weight: 800;
     }
 
-    /* ACTIONS */
+    /* =========================
+       BUTTONS
+    ========================== */
 
     .actions {
       display: flex;
@@ -291,27 +309,77 @@
       background: #554bd8;
     }
 
-    /* QUOTE DOCUMENT */
+    /* =========================
+       QUOTE PREVIEW MODAL
+    ========================== */
+
+    .preview-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(16, 24, 40, 0.75);
+      z-index: 9999;
+      overflow-y: auto;
+      padding: 30px 15px;
+    }
+
+    .preview-overlay.show {
+      display: block;
+    }
+
+    .preview-toolbar {
+      width: 794px;
+      max-width: 100%;
+      margin: 0 auto 12px auto;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .preview-toolbar button {
+      border: none;
+      border-radius: 8px;
+      padding: 11px 16px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .close-preview {
+      background: white;
+      color: #344054;
+    }
+
+    .print-preview {
+      background: #6c63ff;
+      color: white;
+    }
+
+    /* =========================
+       ACTUAL QUOTE DOCUMENT
+    ========================== */
 
     #quoteDocument {
-      position: fixed;
-      left: -10000px;
-      top: 0;
       width: 794px;
       min-height: 1123px;
+      margin: 0 auto;
       padding: 55px;
-      background: white;
+      background: #ffffff;
       color: #1d2939;
       font-family: Arial, Helvetica, sans-serif;
-      z-index: -9999;
+      box-shadow: 0 8px 35px rgba(0, 0, 0, 0.18);
     }
 
     .document-header {
       display: flex;
       justify-content: space-between;
+      gap: 30px;
       border-bottom: 3px solid #6c63ff;
       padding-bottom: 25px;
       margin-bottom: 35px;
+    }
+
+    .document-company {
+      max-width: 55%;
     }
 
     .document-logo {
@@ -325,22 +393,26 @@
     .document-company h2 {
       font-size: 24px;
       margin-bottom: 8px;
+      word-break: break-word;
     }
 
     .document-company p {
       font-size: 12px;
       line-height: 1.6;
       color: #667085;
+      word-break: break-word;
     }
 
     .quote-title {
       text-align: right;
+      min-width: 220px;
     }
 
     .quote-title h1 {
       color: #6c63ff;
       font-size: 34px;
       letter-spacing: 2px;
+      margin-bottom: 12px;
     }
 
     .quote-title p {
@@ -362,11 +434,13 @@
     .document-customer h3 {
       margin-top: 7px;
       margin-bottom: 5px;
+      font-size: 18px;
     }
 
     .document-customer p {
       font-size: 13px;
       line-height: 1.6;
+      word-break: break-word;
     }
 
     .document-table {
@@ -380,12 +454,23 @@
       padding: 12px;
       text-align: left;
       font-size: 12px;
+      color: #344054;
     }
 
     .document-table td {
       padding: 13px 12px;
       border-bottom: 1px solid #eaecf0;
       font-size: 13px;
+      vertical-align: top;
+    }
+
+    .document-table th:nth-child(2),
+    .document-table th:nth-child(3),
+    .document-table th:nth-child(4),
+    .document-table td:nth-child(2),
+    .document-table td:nth-child(3),
+    .document-table td:nth-child(4) {
+      text-align: right;
     }
 
     .doc-totals {
@@ -397,6 +482,7 @@
     .doc-total-row {
       display: flex;
       justify-content: space-between;
+      gap: 20px;
       padding: 7px 0;
       font-size: 13px;
     }
@@ -417,6 +503,7 @@
 
     .document-notes h4 {
       margin-bottom: 8px;
+      font-size: 14px;
     }
 
     .document-notes p {
@@ -425,12 +512,27 @@
       white-space: pre-line;
     }
 
+    .terms-heading {
+      margin-top: 20px;
+    }
+
     .thank-you {
       margin-top: 55px;
       text-align: center;
       color: #667085;
       font-size: 12px;
     }
+
+    .ojira-footer {
+      margin-top: 14px;
+      text-align: center;
+      color: #98a2b3;
+      font-size: 10px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================== */
 
     @media (max-width: 900px) {
       .sidebar {
@@ -447,12 +549,95 @@
         grid-template-columns: 1fr;
       }
 
-      .items-wrapper {
-        overflow-x: auto;
-      }
-
       .totals {
         width: 100%;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      #quoteDocument {
+        transform-origin: top left;
+      }
+    }
+
+    /* =========================
+       PRINT / SAVE AS PDF
+    ========================== */
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    @media print {
+
+      html,
+      body {
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+      }
+
+      body * {
+        visibility: hidden !important;
+      }
+
+      #previewOverlay,
+      #previewOverlay * {
+        visibility: visible !important;
+      }
+
+      #previewOverlay {
+        position: absolute !important;
+        display: block !important;
+        inset: 0 !important;
+        width: 210mm !important;
+        min-height: 297mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        overflow: visible !important;
+      }
+
+      .preview-toolbar {
+        display: none !important;
+      }
+
+      #quoteDocument {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 210mm !important;
+        min-height: 297mm !important;
+        margin: 0 !important;
+        padding: 15mm !important;
+        background: white !important;
+        color: #1d2939 !important;
+        box-shadow: none !important;
+      }
+
+      .document-header,
+      .document-customer,
+      .doc-totals,
+      .document-notes,
+      .thank-you {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .document-table tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
     }
   </style>
@@ -460,7 +645,9 @@
 
 <body>
 
+  <!-- SIDEBAR -->
   <aside class="sidebar">
+
     <div class="logo">
       Ojira<span>Soft</span>
     </div>
@@ -480,11 +667,14 @@
       <a href="#">Analytics</a>
       <a href="#">Settings</a>
     </nav>
+
   </aside>
 
+  <!-- MAIN -->
   <main class="main">
 
     <div class="topbar">
+
       <div>
         <h1>Create a Quote</h1>
         <p>Create a professional quotation for your customer.</p>
@@ -493,11 +683,12 @@
       <a href="dashboard.html" class="back-btn">
         ← Dashboard
       </a>
+
     </div>
 
     <!-- BUSINESS -->
-
     <div class="card">
+
       <h2>Your Business</h2>
 
       <p class="section-description">
@@ -548,6 +739,7 @@
         </div>
 
         <div class="field">
+
           <label>Business Logo</label>
 
           <input
@@ -562,14 +754,16 @@
             class="logo-preview"
             alt="Business logo"
           >
+
         </div>
 
       </div>
+
     </div>
 
     <!-- CUSTOMER -->
-
     <div class="card">
+
       <h2>Customer</h2>
 
       <div class="grid">
@@ -608,11 +802,12 @@
         </div>
 
       </div>
+
     </div>
 
-    <!-- QUOTE INFO -->
-
+    <!-- QUOTE INFORMATION -->
     <div class="card">
+
       <h2>Quote Information</h2>
 
       <div class="grid-3">
@@ -639,6 +834,7 @@
         </div>
 
         <div class="field">
+
           <label>Currency</label>
 
           <select
@@ -653,9 +849,11 @@
             <option value="C$">CAD (C$)</option>
             <option value="A$">AUD (A$)</option>
           </select>
+
         </div>
 
         <div class="field">
+
           <label>Tax / VAT %</label>
 
           <input
@@ -666,9 +864,11 @@
             value="0"
             oninput="calculateTotals()"
           >
+
         </div>
 
         <div class="field">
+
           <label>Discount %</label>
 
           <input
@@ -680,13 +880,14 @@
             value="0"
             oninput="calculateTotals()"
           >
+
         </div>
 
       </div>
+
     </div>
 
-    <!-- ITEMS -->
-
+    <!-- PRODUCTS / SERVICES -->
     <div class="card">
 
       <h2>Products / Services</h2>
@@ -803,7 +1004,6 @@
     </div>
 
     <!-- NOTES -->
-
     <div class="card">
 
       <h2>Notes & Terms</h2>
@@ -811,29 +1011,32 @@
       <div class="grid">
 
         <div class="field">
+
           <label>Customer Note</label>
 
           <textarea
             id="notes"
             placeholder="Thank you for considering our services."
           ></textarea>
+
         </div>
 
         <div class="field">
+
           <label>Terms & Conditions</label>
 
           <textarea
             id="terms"
             placeholder="Example: This quotation is valid for 30 days."
           ></textarea>
+
         </div>
 
       </div>
 
     </div>
 
-    <!-- ACTIONS -->
-
+    <!-- ACTION BUTTONS -->
     <div class="actions">
 
       <button
@@ -856,134 +1059,176 @@
 
   </main>
 
-  <!-- HIDDEN RENDERABLE QUOTE -->
+  <!-- =========================
+       PREVIEW + PRINT AREA
+  ========================== -->
 
-  <div id="quoteDocument">
+  <div
+    id="previewOverlay"
+    class="preview-overlay"
+  >
 
-    <div class="document-header">
+    <div class="preview-toolbar">
 
-      <div class="document-company">
+      <button
+        class="close-preview"
+        type="button"
+        onclick="closePreview()"
+      >
+        Close Preview
+      </button>
 
-        <img
-          id="docLogo"
-          class="document-logo"
-          alt="Business logo"
+      <button
+        class="print-preview"
+        type="button"
+        onclick="printQuote()"
+      >
+        Save as PDF
+      </button>
+
+    </div>
+
+    <div id="quoteDocument">
+
+      <!-- HEADER -->
+      <div class="document-header">
+
+        <div class="document-company">
+
+          <img
+            id="docLogo"
+            class="document-logo"
+            alt="Business logo"
+          >
+
+          <h2 id="docBusinessName"></h2>
+
+          <p id="docBusinessDetails"></p>
+
+        </div>
+
+        <div class="quote-title">
+
+          <h1>QUOTE</h1>
+
+          <p>
+            Quote #:
+            <strong id="docQuoteNumber"></strong>
+          </p>
+
+          <p>
+            Date:
+            <span id="docQuoteDate"></span>
+          </p>
+
+          <p>
+            Valid Until:
+            <span id="docValidUntil"></span>
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- CUSTOMER -->
+      <div class="document-customer">
+
+        <small>Prepared For</small>
+
+        <h3 id="docCustomerName"></h3>
+
+        <p id="docCustomerDetails"></p>
+
+      </div>
+
+      <!-- ITEMS -->
+      <table class="document-table">
+
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+
+        <tbody id="docItems"></tbody>
+
+      </table>
+
+      <!-- TOTALS -->
+      <div class="doc-totals">
+
+        <div class="doc-total-row">
+          <span>Subtotal</span>
+          <span id="docSubtotal"></span>
+        </div>
+
+        <div
+          class="doc-total-row"
+          id="docDiscountRow"
         >
+          <span>Discount</span>
+          <span id="docDiscount"></span>
+        </div>
 
-        <h2 id="docBusinessName"></h2>
+        <div
+          class="doc-total-row"
+          id="docTaxRow"
+        >
+          <span>Tax / VAT</span>
+          <span id="docTax"></span>
+        </div>
 
-        <p id="docBusinessDetails"></p>
-
-      </div>
-
-      <div class="quote-title">
-
-        <h1>QUOTE</h1>
-
-        <p>
-          Quote #:
-          <strong id="docQuoteNumber"></strong>
-        </p>
-
-        <p>
-          Date:
-          <span id="docQuoteDate"></span>
-        </p>
-
-        <p>
-          Valid Until:
-          <span id="docValidUntil"></span>
-        </p>
+        <div class="doc-total-row doc-grand-total">
+          <span>Total</span>
+          <span id="docTotal"></span>
+        </div>
 
       </div>
 
-    </div>
+      <!-- NOTES -->
+      <div class="document-notes">
 
-    <div class="document-customer">
+        <div id="notesSection">
+          <h4>Notes</h4>
+          <p id="docNotes"></p>
+        </div>
 
-      <small>Prepared For</small>
+        <div id="termsSection">
+          <h4 class="terms-heading">Terms & Conditions</h4>
+          <p id="docTerms"></p>
+        </div>
 
-      <h3 id="docCustomerName"></h3>
-
-      <p id="docCustomerDetails"></p>
-
-    </div>
-
-    <table class="document-table">
-
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th>Qty</th>
-          <th>Unit Price</th>
-          <th>Amount</th>
-        </tr>
-      </thead>
-
-      <tbody id="docItems"></tbody>
-
-    </table>
-
-    <div class="doc-totals">
-
-      <div class="doc-total-row">
-        <span>Subtotal</span>
-        <span id="docSubtotal"></span>
       </div>
 
-      <div class="doc-total-row">
-        <span>Discount</span>
-        <span id="docDiscount"></span>
+      <div class="thank-you">
+        Thank you for your business.
       </div>
 
-      <div class="doc-total-row">
-        <span>Tax / VAT</span>
-        <span id="docTax"></span>
+      <div class="ojira-footer">
+        Quote created with OjiraSoft
       </div>
 
-      <div class="doc-total-row doc-grand-total">
-        <span>Total</span>
-        <span id="docTotal"></span>
-      </div>
-
-    </div>
-
-    <div class="document-notes">
-
-      <h4>Notes</h4>
-      <p id="docNotes"></p>
-
-      <br>
-
-      <h4>Terms & Conditions</h4>
-      <p id="docTerms"></p>
-
-    </div>
-
-    <div class="thank-you">
-      Thank you for your business.
     </div>
 
   </div>
-
-  <!-- PDF LIBRARY -->
-
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js">
-  </script>
 
   <script>
 
     let logoData = "";
 
-    /* DEFAULTS */
+    /* =========================
+       DEFAULT VALUES
+    ========================== */
 
     function setupDefaults() {
 
       const today = new Date();
 
       const todayString =
-        today.toISOString().split("T")[0];
+        formatDateForInput(today);
 
       document.getElementById("quoteDate").value =
         todayString;
@@ -996,7 +1241,7 @@
       );
 
       document.getElementById("validUntil").value =
-        validDate.toISOString().split("T")[0];
+        formatDateForInput(validDate);
 
       const quoteNumber =
         "QT-" +
@@ -1008,7 +1253,45 @@
         quoteNumber;
     }
 
-    /* LOGO */
+    function formatDateForInput(date) {
+
+      const year =
+        date.getFullYear();
+
+      const month =
+        String(date.getMonth() + 1).padStart(2, "0");
+
+      const day =
+        String(date.getDate()).padStart(2, "0");
+
+      return year + "-" + month + "-" + day;
+    }
+
+    function formatDateForDocument(value) {
+
+      if (!value) {
+        return "";
+      }
+
+      const parts =
+        value.split("-");
+
+      if (parts.length !== 3) {
+        return value;
+      }
+
+      return (
+        parts[2] +
+        "." +
+        parts[1] +
+        "." +
+        parts[0]
+      );
+    }
+
+    /* =========================
+       LOGO
+    ========================== */
 
     function loadLogo(event) {
 
@@ -1019,28 +1302,42 @@
         return;
       }
 
+      if (!file.type.startsWith("image/")) {
+
+        alert(
+          "Please select an image file for your logo."
+        );
+
+        event.target.value = "";
+
+        return;
+      }
+
       const reader =
         new FileReader();
 
-      reader.onload = function(e) {
+      reader.onload =
+        function(e) {
 
-        logoData =
-          e.target.result;
+          logoData =
+            e.target.result;
 
-        const preview =
-          document.getElementById("logoPreview");
+          const preview =
+            document.getElementById("logoPreview");
 
-        preview.src =
-          logoData;
+          preview.src =
+            logoData;
 
-        preview.style.display =
-          "block";
-      };
+          preview.style.display =
+            "block";
+        };
 
       reader.readAsDataURL(file);
     }
 
-    /* ADD ITEM */
+    /* =========================
+       ADD ITEM
+    ========================== */
 
     function addItem() {
 
@@ -1103,7 +1400,9 @@
       calculateTotals();
     }
 
-    /* REMOVE ITEM */
+    /* =========================
+       REMOVE ITEM
+    ========================== */
 
     function removeItem(button) {
 
@@ -1124,7 +1423,27 @@
       calculateTotals();
     }
 
-    /* TOTALS */
+    /* =========================
+       MONEY
+    ========================== */
+
+    function money(symbol, amount) {
+
+      return (
+        symbol +
+        Number(amount).toLocaleString(
+          "en-US",
+          {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }
+        )
+      );
+    }
+
+    /* =========================
+       CALCULATE TOTALS
+    ========================== */
 
     function calculateTotals() {
 
@@ -1136,83 +1455,95 @@
 
       let subtotal = 0;
 
-      rows.forEach(function(row) {
+      rows.forEach(
+        function(row) {
 
-        const quantity =
-          parseFloat(
-            row.querySelector(".quantity").value
-          ) || 0;
+          const quantity =
+            parseFloat(
+              row.querySelector(".quantity").value
+            ) || 0;
 
-        const price =
-          parseFloat(
-            row.querySelector(".price").value
-          ) || 0;
+          const price =
+            parseFloat(
+              row.querySelector(".price").value
+            ) || 0;
 
-        const lineTotal =
-          quantity * price;
+          const lineTotal =
+            quantity * price;
 
-        subtotal += lineTotal;
+          subtotal +=
+            lineTotal;
 
-        row.querySelector(".line-total").textContent =
-          symbol + lineTotal.toFixed(2);
-      });
+          row.querySelector(".line-total").textContent =
+            money(symbol, lineTotal);
+        }
+      );
 
-      const discountRate =
+      let discountRate =
         parseFloat(
           document.getElementById("discountRate").value
         ) || 0;
 
-      const taxRate =
+      let taxRate =
         parseFloat(
           document.getElementById("taxRate").value
         ) || 0;
 
+      if (discountRate < 0) {
+        discountRate = 0;
+      }
+
+      if (discountRate > 100) {
+        discountRate = 100;
+      }
+
+      if (taxRate < 0) {
+        taxRate = 0;
+      }
+
       const discount =
-        subtotal * (discountRate / 100);
+        subtotal *
+        (discountRate / 100);
 
       const taxableAmount =
-        subtotal - discount;
+        subtotal -
+        discount;
 
       const tax =
-        taxableAmount * (taxRate / 100);
+        taxableAmount *
+        (taxRate / 100);
 
       const total =
-        taxableAmount + tax;
+        taxableAmount +
+        tax;
 
       document.getElementById("subtotalDisplay").textContent =
-        symbol + subtotal.toFixed(2);
+        money(symbol, subtotal);
 
       document.getElementById("discountDisplay").textContent =
-        "- " + symbol + discount.toFixed(2);
+        "- " +
+        money(symbol, discount);
 
       document.getElementById("taxDisplay").textContent =
-        symbol + tax.toFixed(2);
+        money(symbol, tax);
 
       document.getElementById("totalDisplay").textContent =
-        symbol + total.toFixed(2);
+        money(symbol, total);
 
       return {
-        subtotal: subtotal,
-        discount: discount,
-        tax: tax,
-        total: total,
-        symbol: symbol
+        subtotal,
+        discount,
+        tax,
+        total,
+        symbol,
+        discountRate,
+        taxRate
       };
     }
 
-    /* ESCAPE USER TEXT */
-
-    function escapeHTML(value) {
-
-      return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    /* BUILD QUOTE */
+    /* =========================
+       BUILD QUOTE
+    ========================== */
 
     function buildQuoteDocument() {
 
@@ -1234,6 +1565,10 @@
           "Please enter your business name."
         );
 
+        document
+          .getElementById("businessName")
+          .focus();
+
         return false;
       }
 
@@ -1243,26 +1578,51 @@
           "Please enter the customer name."
         );
 
+        document
+          .getElementById("customerName")
+          .focus();
+
         return false;
       }
 
       const totals =
         calculateTotals();
 
-      document.getElementById("docBusinessName").textContent =
+      /* BUSINESS */
+
+      document
+        .getElementById("docBusinessName")
+        .textContent =
         businessName;
 
       const businessDetails = [
-        document.getElementById("businessAddress").value.trim(),
-        document.getElementById("businessEmail").value.trim(),
-        document.getElementById("businessPhone").value.trim(),
-        document.getElementById("businessWebsite").value.trim()
+        document
+          .getElementById("businessAddress")
+          .value
+          .trim(),
+
+        document
+          .getElementById("businessEmail")
+          .value
+          .trim(),
+
+        document
+          .getElementById("businessPhone")
+          .value
+          .trim(),
+
+        document
+          .getElementById("businessWebsite")
+          .value
+          .trim()
       ].filter(Boolean);
 
-      document.getElementById("docBusinessDetails").innerHTML =
+      setMultilineText(
+        "docBusinessDetails",
         businessDetails
-          .map(escapeHTML)
-          .join("<br>");
+      );
+
+      /* LOGO */
 
       const docLogo =
         document.getElementById("docLogo");
@@ -1283,28 +1643,64 @@
           "none";
       }
 
-      document.getElementById("docQuoteNumber").textContent =
-        document.getElementById("quoteNumber").value;
+      /* QUOTE DETAILS */
 
-      document.getElementById("docQuoteDate").textContent =
-        document.getElementById("quoteDate").value;
+      document
+        .getElementById("docQuoteNumber")
+        .textContent =
+        document
+          .getElementById("quoteNumber")
+          .value
+          .trim();
 
-      document.getElementById("docValidUntil").textContent =
-        document.getElementById("validUntil").value;
+      document
+        .getElementById("docQuoteDate")
+        .textContent =
+        formatDateForDocument(
+          document
+            .getElementById("quoteDate")
+            .value
+        );
 
-      document.getElementById("docCustomerName").textContent =
+      document
+        .getElementById("docValidUntil")
+        .textContent =
+        formatDateForDocument(
+          document
+            .getElementById("validUntil")
+            .value
+        );
+
+      /* CUSTOMER */
+
+      document
+        .getElementById("docCustomerName")
+        .textContent =
         customerName;
 
       const customerDetails = [
-        document.getElementById("customerAddress").value.trim(),
-        document.getElementById("customerEmail").value.trim(),
-        document.getElementById("customerPhone").value.trim()
+        document
+          .getElementById("customerAddress")
+          .value
+          .trim(),
+
+        document
+          .getElementById("customerEmail")
+          .value
+          .trim(),
+
+        document
+          .getElementById("customerPhone")
+          .value
+          .trim()
       ].filter(Boolean);
 
-      document.getElementById("docCustomerDetails").innerHTML =
+      setMultilineText(
+        "docCustomerDetails",
         customerDetails
-          .map(escapeHTML)
-          .join("<br>");
+      );
+
+      /* ITEMS */
 
       const docItems =
         document.getElementById("docItems");
@@ -1314,106 +1710,235 @@
 
       document
         .querySelectorAll(".item-row")
-        .forEach(function(row) {
+        .forEach(
+          function(row) {
 
-          const description =
-            row
-              .querySelector(".description")
-              .value
-              .trim();
+            const description =
+              row
+                .querySelector(".description")
+                .value
+                .trim();
 
-          const quantity =
-            parseFloat(
-              row.querySelector(".quantity").value
-            ) || 0;
+            const quantity =
+              parseFloat(
+                row.querySelector(".quantity").value
+              ) || 0;
 
-          const price =
-            parseFloat(
-              row.querySelector(".price").value
-            ) || 0;
+            const price =
+              parseFloat(
+                row.querySelector(".price").value
+              ) || 0;
 
-          if (!description && price === 0) {
-            return;
+            if (
+              !description &&
+              price === 0
+            ) {
+              return;
+            }
+
+            const amount =
+              quantity * price;
+
+            const tr =
+              document.createElement("tr");
+
+            const descriptionCell =
+              document.createElement("td");
+
+            const quantityCell =
+              document.createElement("td");
+
+            const priceCell =
+              document.createElement("td");
+
+            const amountCell =
+              document.createElement("td");
+
+            descriptionCell.textContent =
+              description || "Item";
+
+            quantityCell.textContent =
+              quantity;
+
+            priceCell.textContent =
+              money(
+                totals.symbol,
+                price
+              );
+
+            amountCell.textContent =
+              money(
+                totals.symbol,
+                amount
+              );
+
+            tr.appendChild(
+              descriptionCell
+            );
+
+            tr.appendChild(
+              quantityCell
+            );
+
+            tr.appendChild(
+              priceCell
+            );
+
+            tr.appendChild(
+              amountCell
+            );
+
+            docItems.appendChild(
+              tr
+            );
           }
+        );
 
-          const amount =
-            quantity * price;
-
-          const tr =
-            document.createElement("tr");
-
-          const descriptionCell =
-            document.createElement("td");
-
-          const quantityCell =
-            document.createElement("td");
-
-          const priceCell =
-            document.createElement("td");
-
-          const amountCell =
-            document.createElement("td");
-
-          descriptionCell.textContent =
-            description || "Item";
-
-          quantityCell.textContent =
-            quantity;
-
-          priceCell.textContent =
-            totals.symbol +
-            price.toFixed(2);
-
-          amountCell.textContent =
-            totals.symbol +
-            amount.toFixed(2);
-
-          tr.appendChild(descriptionCell);
-          tr.appendChild(quantityCell);
-          tr.appendChild(priceCell);
-          tr.appendChild(amountCell);
-
-          docItems.appendChild(tr);
-        });
-
-      if (docItems.children.length === 0) {
+      if (
+        docItems.children.length === 0
+      ) {
 
         alert(
-          "Please add at least one product or service with a description or price."
+          "Please add at least one product or service."
         );
 
         return false;
       }
 
-      document.getElementById("docSubtotal").textContent =
-        totals.symbol +
-        totals.subtotal.toFixed(2);
+      /* TOTALS */
 
-      document.getElementById("docDiscount").textContent =
+      document
+        .getElementById("docSubtotal")
+        .textContent =
+        money(
+          totals.symbol,
+          totals.subtotal
+        );
+
+      document
+        .getElementById("docDiscount")
+        .textContent =
         "- " +
-        totals.symbol +
-        totals.discount.toFixed(2);
+        money(
+          totals.symbol,
+          totals.discount
+        );
 
-      document.getElementById("docTax").textContent =
-        totals.symbol +
-        totals.tax.toFixed(2);
+      document
+        .getElementById("docTax")
+        .textContent =
+        money(
+          totals.symbol,
+          totals.tax
+        );
 
-      document.getElementById("docTotal").textContent =
-        totals.symbol +
-        totals.total.toFixed(2);
+      document
+        .getElementById("docTotal")
+        .textContent =
+        money(
+          totals.symbol,
+          totals.total
+        );
 
-      document.getElementById("docNotes").textContent =
-        document.getElementById("notes").value.trim() ||
-        "Thank you for considering our quotation.";
+      document
+        .getElementById("docDiscountRow")
+        .style.display =
+        totals.discount > 0
+          ? "flex"
+          : "none";
 
-      document.getElementById("docTerms").textContent =
-        document.getElementById("terms").value.trim() ||
-        "This quotation is subject to the terms agreed between the parties.";
+      document
+        .getElementById("docTaxRow")
+        .style.display =
+        totals.tax > 0
+          ? "flex"
+          : "none";
+
+      /* NOTES */
+
+      const notes =
+        document
+          .getElementById("notes")
+          .value
+          .trim();
+
+      const terms =
+        document
+          .getElementById("terms")
+          .value
+          .trim();
+
+      document
+        .getElementById("docNotes")
+        .textContent =
+        notes;
+
+      document
+        .getElementById("docTerms")
+        .textContent =
+        terms;
+
+      document
+        .getElementById("notesSection")
+        .style.display =
+        notes
+          ? "block"
+          : "none";
+
+      document
+        .getElementById("termsSection")
+        .style.display =
+        terms
+          ? "block"
+          : "none";
+
+      document
+        .querySelector(".document-notes")
+        .style.display =
+        notes || terms
+          ? "block"
+          : "none";
 
       return true;
     }
 
-    /* PREVIEW */
+    /* =========================
+       MULTILINE SAFE TEXT
+    ========================== */
+
+    function setMultilineText(
+      elementId,
+      values
+    ) {
+
+      const element =
+        document.getElementById(
+          elementId
+        );
+
+      element.innerHTML =
+        "";
+
+      values.forEach(
+        function(value, index) {
+
+          if (index > 0) {
+
+            element.appendChild(
+              document.createElement("br")
+            );
+          }
+
+          element.appendChild(
+            document.createTextNode(value)
+          );
+        }
+      );
+    }
+
+    /* =========================
+       PREVIEW
+    ========================== */
 
     function previewQuote() {
 
@@ -1421,367 +1946,88 @@
         return;
       }
 
-      const source =
-        document.getElementById("quoteDocument");
+      document
+        .getElementById("previewOverlay")
+        .classList
+        .add("show");
 
-      const previewWindow =
-        window.open("", "_blank");
+      document.body.style.overflow =
+        "hidden";
 
-      if (!previewWindow) {
-
-        alert(
-          "Your browser blocked the preview window. Please allow pop-ups for OjiraSoft."
-        );
-
-        return;
-      }
-
-      const quoteHTML =
-        source.innerHTML;
-
-      previewWindow.document.open();
-
-      previewWindow.document.write(`
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-          <title>Quote Preview</title>
-
-          <style>
-            * {
-              box-sizing: border-box;
-            }
-
-            body {
-              margin: 0;
-              padding: 30px;
-              background: #eef1f6;
-              font-family: Arial, Helvetica, sans-serif;
-              color: #1d2939;
-            }
-
-            #previewQuote {
-              width: 794px;
-              min-height: 1123px;
-              margin: 0 auto;
-              padding: 55px;
-              background: white;
-              box-shadow: 0 5px 30px rgba(0,0,0,.10);
-            }
-
-            .document-header {
-              display: flex;
-              justify-content: space-between;
-              border-bottom: 3px solid #6c63ff;
-              padding-bottom: 25px;
-              margin-bottom: 35px;
-            }
-
-            .document-logo {
-              max-width: 150px;
-              max-height: 80px;
-              object-fit: contain;
-              margin-bottom: 12px;
-            }
-
-            .document-company h2 {
-              font-size: 24px;
-              margin-bottom: 8px;
-            }
-
-            .document-company p {
-              font-size: 12px;
-              line-height: 1.6;
-              color: #667085;
-            }
-
-            .quote-title {
-              text-align: right;
-            }
-
-            .quote-title h1 {
-              color: #6c63ff;
-              font-size: 34px;
-              letter-spacing: 2px;
-            }
-
-            .quote-title p {
-              font-size: 12px;
-              margin-top: 7px;
-              color: #667085;
-            }
-
-            .document-customer {
-              margin-bottom: 30px;
-            }
-
-            .document-customer small {
-              color: #667085;
-              font-weight: 700;
-              text-transform: uppercase;
-            }
-
-            .document-customer h3 {
-              margin-top: 7px;
-              margin-bottom: 5px;
-            }
-
-            .document-customer p {
-              font-size: 13px;
-              line-height: 1.6;
-            }
-
-            .document-table {
-              width: 100%;
-              border-collapse: collapse;
-              margin-top: 25px;
-            }
-
-            .document-table th {
-              background: #f2f4f7;
-              padding: 12px;
-              text-align: left;
-              font-size: 12px;
-            }
-
-            .document-table td {
-              padding: 13px 12px;
-              border-bottom: 1px solid #eaecf0;
-              font-size: 13px;
-            }
-
-            .doc-totals {
-              width: 300px;
-              margin-left: auto;
-              margin-top: 25px;
-            }
-
-            .doc-total-row {
-              display: flex;
-              justify-content: space-between;
-              padding: 7px 0;
-              font-size: 13px;
-            }
-
-            .doc-grand-total {
-              font-size: 19px;
-              font-weight: 800;
-              border-top: 2px solid #344054;
-              padding-top: 12px;
-              margin-top: 8px;
-            }
-
-            .document-notes {
-              margin-top: 45px;
-              border-top: 1px solid #eaecf0;
-              padding-top: 20px;
-            }
-
-            .document-notes h4 {
-              margin-bottom: 8px;
-            }
-
-            .document-notes p {
-              font-size: 12px;
-              line-height: 1.6;
-              white-space: pre-line;
-            }
-
-            .thank-you {
-              margin-top: 55px;
-              text-align: center;
-              color: #667085;
-              font-size: 12px;
-            }
-          </style>
-        </head>
-
-        <body>
-          <div id="previewQuote">
-            ${quoteHTML}
-          </div>
-        </body>
-        </html>
-      `);
-
-      previewWindow.document.close();
+      window.scrollTo(
+        0,
+        0
+      );
     }
 
-    /* GENERATE PDF - CORRECTED */
+    function closePreview() {
 
-    async function generatePDF() {
+      document
+        .getElementById("previewOverlay")
+        .classList
+        .remove("show");
+
+      document.body.style.overflow =
+        "";
+    }
+
+    /* =========================
+       GENERATE PDF
+    ========================== */
+
+    function generatePDF() {
 
       if (!buildQuoteDocument()) {
         return;
       }
 
-      if (typeof html2pdf === "undefined") {
+      document
+        .getElementById("previewOverlay")
+        .classList
+        .add("show");
 
-        alert(
-          "The PDF generator did not load. Please refresh the page and try again."
-        );
+      document.body.style.overflow =
+        "hidden";
 
+      setTimeout(
+        function() {
+
+          window.print();
+
+        },
+        250
+      );
+    }
+
+    function printQuote() {
+
+      if (!buildQuoteDocument()) {
         return;
       }
 
-      const source =
-        document.getElementById("quoteDocument");
-
-      /*
-        IMPORTANT:
-        We clone the quote into a temporary visible rendering area.
-        This prevents html2canvas/html2pdf from creating a blank PDF
-        from an off-screen or hidden element.
-      */
-
-      const pdfContainer =
-        document.createElement("div");
-
-      pdfContainer.style.position =
-        "absolute";
-
-      pdfContainer.style.left =
-        "0";
-
-      pdfContainer.style.top =
-        "0";
-
-      pdfContainer.style.width =
-        "794px";
-
-      pdfContainer.style.minHeight =
-        "1123px";
-
-      pdfContainer.style.padding =
-        "55px";
-
-      pdfContainer.style.background =
-        "#ffffff";
-
-      pdfContainer.style.color =
-        "#1d2939";
-
-      pdfContainer.style.fontFamily =
-        "Arial, Helvetica, sans-serif";
-
-      pdfContainer.style.zIndex =
-        "999999";
-
-      pdfContainer.innerHTML =
-        source.innerHTML;
-
-      document.body.appendChild(
-        pdfContainer
-      );
-
-      /*
-        Wait briefly so the browser can fully render
-        the cloned quote before html2canvas captures it.
-      */
-
-      await new Promise(function(resolve) {
-        requestAnimationFrame(function() {
-          requestAnimationFrame(resolve);
-        });
-      });
-
-      const images =
-        pdfContainer.querySelectorAll("img");
-
-      const imagePromises =
-        Array.from(images).map(function(img) {
-
-          if (!img.src || img.complete) {
-            return Promise.resolve();
-          }
-
-          return new Promise(function(resolve) {
-
-            img.onload =
-              resolve;
-
-            img.onerror =
-              resolve;
-          });
-        });
-
-      await Promise.all(
-        imagePromises
-      );
-
-      const quoteNumber =
-        document.getElementById("quoteNumber").value.trim() ||
-        "quote";
-
-      const safeQuoteNumber =
-        quoteNumber.replace(
-          /[^a-zA-Z0-9-_]/g,
-          "-"
-        );
-
-      const options = {
-
-        margin: 0,
-
-        filename:
-          "OjiraSoft-" +
-          safeQuoteNumber +
-          ".pdf",
-
-        image: {
-          type: "jpeg",
-          quality: 0.98
-        },
-
-        html2canvas: {
-          scale: 2,
-          useCORS: true,
-          backgroundColor: "#ffffff",
-          logging: false,
-          scrollX: 0,
-          scrollY: 0
-        },
-
-        jsPDF: {
-          unit: "px",
-          format: [794, 1123],
-          orientation: "portrait",
-          hotfixes: ["px_scaling"]
-        },
-
-        pagebreak: {
-          mode: ["avoid-all", "css", "legacy"]
-        }
-      };
-
-      try {
-
-        await html2pdf()
-          .set(options)
-          .from(pdfContainer)
-          .save();
-
-      } catch (error) {
-
-        console.error(
-          "PDF generation error:",
-          error
-        );
-
-        alert(
-          "The PDF could not be generated. Please try again."
-        );
-
-      } finally {
-
-        pdfContainer.remove();
-      }
+      window.print();
     }
 
-    /* START */
+    /* =========================
+       CLOSE PREVIEW WITH ESC
+    ========================== */
+
+    document.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          closePreview();
+        }
+      }
+    );
+
+    /* =========================
+       START
+    ========================== */
 
     setupDefaults();
     calculateTotals();
